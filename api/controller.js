@@ -37,19 +37,16 @@ export async function getTransactions ({
 
     // TODO order by date
     // TODO cache
-    let resCursor = await client.collection('transactions').find(
-        filter
-    )
+    let resCursor = await client.collection('transactions')
+        .find(filter)
+        .limit(50)
 
     let results = []
-    let cnt = 0;
 
     for await (const txn of resCursor) {
         results.push(
             new Transaction(txn)
         );
-        cnt ++;
-        if (cnt === 50) break;
     }
 
     return results;
