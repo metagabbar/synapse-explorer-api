@@ -2,6 +2,8 @@ import express from "express"
 import {graphqlHTTP} from "express-graphql";
 import {getTransactions} from "./api/controller.js";
 import {schema} from "./api/schema.js";
+import {config} from "dotenv";
+config()
 
 let app = express();
 app.use('/graphql', graphqlHTTP({

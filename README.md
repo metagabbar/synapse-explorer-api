@@ -20,4 +20,5 @@ query {
 
 ### Local setup
 * `npm install`
+* Add MONGO_URL and REDIS_URL in the `.env` file
 * `npm start`

@@ -14,13 +14,13 @@ export const schema = buildSchema(`
     sentValueUSD: Float,
     sentTokenAddress: String,
     sentTokenSymbol: String,
-    sentTime: String,
+    sentTime: Int,
     
     receivedValue: String,
     receivedValueUSD: Float,
     receivedTokenAddress: String,
     receivedTokenSymbol: String,
-    receivedTime: String,
+    receivedTime: Int,
     
     kappa: String
     pending: Boolean
@@ -29,8 +29,8 @@ export const schema = buildSchema(`
   
   type Query {
     getTransactions(
-        chainFrom: Int,
-        chainTo: Int,
+        chainIdFrom: Int,
+        chainIdTo: Int,
         addressFrom: String,
         addressTo: String,
         txnToHash: String,
