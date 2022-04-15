@@ -4,10 +4,11 @@ export class Transaction {
     constructor(args) {
 
         this.addressFrom = args.from_address;
-        this.txnFromHash = args.from_tx_hash;
-        this.chainIdTo = args.to_chain_id;
         this.addressTo = args.to_address;
+        this.txnFromHash = args.from_tx_hash;
         this.txnToHash = args.to_tx_hash;
+        this.chainIdTo = args.to_chain_id;
+        this.chainIdFrom = args.from_chain_id;
         this.sentValue = args.sent_value;
         this.sentValueUSD = args.sent_value_formatted ? Decimal128(args.sent_value_formatted.toString()).toString() : null;
         this.sentTokenAddress = args.sent_token;
