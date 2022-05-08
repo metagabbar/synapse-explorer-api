@@ -1,5 +1,7 @@
 # synapse-explorer-api
 
+### Note: This branch is for the python API indexer, not the rewritten indexer in nodejs 
+
 GraphQL API to query synapse bridge transactions.
 
 This service is simply an API that pulls in data from the database populated by the indexer service.
