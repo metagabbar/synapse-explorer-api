@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import {graphqlHTTP} from "express-graphql";
-import {getTransactions} from "./api/controller.js";
+import {getBridgeTransactions} from "./api/controllers.js";
 import {schema} from "./api/schema.js";
 import {config} from "dotenv";
 config()
@@ -12,7 +12,7 @@ app.use(cors())
 app.use('/graphql', graphqlHTTP({
     schema: schema,
     rootValue: {
-        getTransactions: getTransactions
+        getBridgeTransactions: getBridgeTransactions
     },
     graphiql: true,
 

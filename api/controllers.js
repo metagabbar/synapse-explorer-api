@@ -1,7 +1,7 @@
-import {Transaction} from "./transaction.js";
+import {BridgeTransaction} from "./bridgeTransaction.js";
 import {MongoConnection} from "./db.js";
 
-export async function getTransactions ({
+export async function getBridgeTransactions ({
         chainIdFrom,
         chainIdTo,
         addressFrom,
@@ -14,22 +14,22 @@ export async function getTransactions ({
     let filter = {}
 
     if (chainIdFrom) {
-        filter['from_chain_id'] = chainIdFrom
+        filter['fromChainId'] = chainIdFrom
     }
     if (chainIdTo) {
-        filter['from_chain_to'] = chainIdTo
+        filter['toChainId'] = chainIdTo
     }
     if (addressFrom) {
-        filter['from_address'] = addressFrom
+        filter['fromAddress'] = addressFrom
     }
     if (addressTo) {
-        filter['to_address'] = addressTo
+        filter['toAddress'] = addressTo
     }
     if (txnToHash) {
-        filter['to_tx_hash'] = txnToHash
+        filter['toTxnHash'] = txnToHash
     }
     if (txnFromHash) {
-        filter['from_tx_hash'] = txnFromHash
+        filter['fromTxnHash'] = txnFromHash
     }
     if (kappa) {
         filter['kappa'] = kappa
@@ -37,7 +37,7 @@ export async function getTransactions ({
 
     // TODO order by date
     // TODO cache
-    let resCursor = await client.collection('transactions')
+    let resCursor = await client.collection('bridgetransactions')
         .find(filter)
         .limit(50)
 
@@ -45,7 +45,7 @@ export async function getTransactions ({
 
     for await (const txn of resCursor) {
         results.push(
-            new Transaction(txn)
+            new BridgeTransaction(txn)
         );
     }
 

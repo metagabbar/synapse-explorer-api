@@ -28,7 +28,7 @@ export const schema = buildSchema(`
   }
   
   type Query {
-    getTransactions(
+    getBridgeTransactions(
         chainIdFrom: Int,
         chainIdTo: Int,
         addressFrom: String,
