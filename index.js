@@ -7,9 +7,8 @@ import {config} from "dotenv";
 config()
 
 let app = express();
-app.use(cors())
 
-app.use('/graphql', graphqlHTTP({
+app.use('/graphql', cors(), graphqlHTTP({
     schema: schema,
     rootValue: {
         getBridgeTransactions: getBridgeTransactions
