@@ -40,6 +40,7 @@ export async function getBridgeTransactions ({
     let resCursor = await client.collection('bridgetransactions')
         .find(filter)
         .limit(50)
+        .sort({'receivedTime' : -1});
 
     let results = []
 
