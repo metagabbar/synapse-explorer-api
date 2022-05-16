@@ -1,17 +1,21 @@
+import {config} from "dotenv";
+config()
 import express from "express"
 import cors from "cors"
 import {graphqlHTTP} from "express-graphql";
-import {getBridgeTransactions} from "./api/controllers.js";
-import {schema} from "./api/schema.js";
-import {config} from "dotenv";
-config()
+import {schema} from "./api/gql/schema.js";
+import {MongoConnection} from "./api/utils/db.js";
+import {getBridgeTransactions} from "./api/controllers/getBridgeTransactions.js";
+import {latestBridgeTransactions} from "./api/controllers/latestBridgeTransactions.js";
 
+await MongoConnection.createClient();
 let app = express();
 
 app.use('/graphql', cors(), graphqlHTTP({
     schema: schema,
     rootValue: {
-        getBridgeTransactions: getBridgeTransactions
+        getBridgeTransactions: getBridgeTransactions,
+        latestBridgeTransactions: latestBridgeTransactions,
     },
     graphiql: true,
 

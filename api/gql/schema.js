@@ -1,7 +1,7 @@
 import {buildSchema} from "graphql";
 
 export const schema = buildSchema(`
-  type Transaction {
+  type BridgeTransaction {
     chainIdFrom: Int,
     addressFrom: String,
     txnFromHash: String,
@@ -29,13 +29,14 @@ export const schema = buildSchema(`
   
   type Query {
     getBridgeTransactions(
-        chainIdFrom: Int,
-        chainIdTo: Int,
-        addressFrom: String,
-        addressTo: String,
-        txnToHash: String,
-        txnFromHash: String,
+        chainId: Int,
+        address: String,
+        txnHash: String,
         kappa: String
-    ): [Transaction]
+    ): [BridgeTransaction]
+    
+    latestBridgeTransactions(
+        includePending: Boolean
+    ): [BridgeTransaction]
   }
 `);
