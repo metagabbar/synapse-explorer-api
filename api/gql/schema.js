@@ -35,8 +35,6 @@ export const schema = buildSchema(`
         kappa: String
     ): [BridgeTransaction]
     
-    latestBridgeTransactions(
-        includePending: Boolean
-    ): [BridgeTransaction]
+    latestBridgeTransactions: [BridgeTransaction]
   }
 `);
