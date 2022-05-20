@@ -1,5 +1,6 @@
 import {BridgeTransaction} from "../models/bridgeTransaction.js";
 import {MongoConnection} from "../utils/db.js";
+import {ethers} from "ethers";
 
 export async function getBridgeTransactions ({
         chainId,
@@ -7,6 +8,10 @@ export async function getBridgeTransactions ({
         txnHash,
         kappa
     }) {
+
+    if (address) {
+        address = ethers.utils.getAddress(address);
+    }
 
     let client = await MongoConnection.getClientDb()
     let filter = {'$and': []}
