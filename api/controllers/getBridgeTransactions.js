@@ -1,19 +1,18 @@
-import {BridgeTransaction} from "../models/bridgeTransaction.js";
-import {MongoConnection} from "../utils/db.js";
-import {ethers} from "ethers";
+import {formatBridgeTransaction} from "../models/bridgeTransaction.js"
+import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
+import {ethers} from "ethers"
 
 export async function getBridgeTransactions ({
-        chainId,
-        address,
-        txnHash,
-        kappa
-    }) {
+    chainId,
+    address,
+    txnHash,
+    kappa
+}) {
 
     if (address) {
         address = ethers.utils.getAddress(address);
     }
 
-    let client = await MongoConnection.getClientDb()
     let filter = {'$and': []}
 
     if (chainId) {
@@ -49,12 +48,12 @@ export async function getBridgeTransactions ({
         })
     }
 
-    let res = await client.collection('bridgetransactions')
+    let res = await BRIDGE_TRANSACTIONS_COLLECTION
         .find(filter)
         .limit(50)
         .toArray()
 
     return res.map((txn) => {
-        return new BridgeTransaction(txn)
+        return formatBridgeTransaction(txn)
     })
 }
