@@ -48,8 +48,14 @@ export async function getBridgeTransactions ({
         })
     }
 
+    // Only return completed transactions here
+    filter['$and'].push({
+        'pending': false
+    })
+
     let res = await BRIDGE_TRANSACTIONS_COLLECTION
         .find(filter)
+        .sort({"sentTime": -1})
         .limit(50)
         .toArray()
 
