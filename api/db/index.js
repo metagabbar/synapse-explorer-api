@@ -19,15 +19,10 @@ async function getCollection(db, collectionName) {
   return res
 }
 
-
-MongoConnection.getClientDb().then( res => {
+MongoConnection.getClientDb().then(async res => {
   MONGO_DB = res
-  BRIDGE_TRANSACTIONS_COLLECTION = getCollection(MONGO_DB, 'bridgetransactions')
-  getCollection(MONGO_DB, 'bridgetransactions').then(collection => {
-    BRIDGE_TRANSACTIONS_COLLECTION = collection
-  })
+  BRIDGE_TRANSACTIONS_COLLECTION = await getCollection(MONGO_DB, 'bridgetransactions')
 })
-
 
 
 
