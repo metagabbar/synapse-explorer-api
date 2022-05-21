@@ -1,10 +1,9 @@
-import {MongoConnection} from "../utils/db.js";
-import {BridgeTransaction} from "../models/bridgeTransaction.js";
+import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js";
+import { formatBridgeTransaction } from "../models/bridgeTransaction.js";
 
 export async function latestBridgeTransactions ({
     }) {
 
-    let client = await MongoConnection.getClientDb()
     let filter = {}
 
     // if (includePending) {
@@ -13,7 +12,7 @@ export async function latestBridgeTransactions ({
     //     filter['pending'] = false
     // }
 
-    let res = await client.collection('bridgetransactions')
+    let res = await BRIDGE_TRANSACTIONS_COLLECTION
         .aggregate([
             {
                 $addFields: {
@@ -37,6 +36,6 @@ export async function latestBridgeTransactions ({
         ]).toArray()
 
     return res.map((txn) => {
-        return new BridgeTransaction(txn)
+        return formatBridgeTransaction(txn)
     })
 }

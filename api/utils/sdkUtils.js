@@ -23,5 +23,5 @@ for (const chainId of _.values(ChainId)) {
 }
 
 export function getTokenSymbolFromAddress(chainId, address) {
-    return ADDRESS_SYMBOL_MAP[chainId][address.toLowerCase()]
+    return ADDRESS_SYMBOL_MAP[chainId][address?.toLowerCase()]
 }
