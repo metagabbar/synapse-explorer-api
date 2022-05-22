@@ -1,5 +1,3 @@
-import {getNetworkNameFromId, getTokenSymbolFromAddress} from "../utils/sdkUtils.js";
-import {ChainId, Networks} from "@synapseprotocol/sdk";
 
 
 export function formatBridgeTransaction(args) {
