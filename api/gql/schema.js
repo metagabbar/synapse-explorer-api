@@ -1,4 +1,4 @@
-import {buildSchema} from "graphql";
+import {buildSchema} from "graphql"
 
 export const schema = buildSchema( /* GraphQL */  `
   type BridgeTransaction {
@@ -32,4 +32,4 @@ export const schema = buildSchema( /* GraphQL */  `
 
     latestBridgeTransactions: [BridgeTransaction]
   }
-`);
+`)

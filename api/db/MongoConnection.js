@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb"
 
 export class MongoConnection {
-  _client;
+  _client
 
   /** Instantiation/creation of mongodb client */
   static async createClient() {
@@ -11,7 +11,7 @@ export class MongoConnection {
   }
   /** get the underlying mongo client db */
   static async getClientDb() {
-    return MongoConnection._client.db();
+    return MongoConnection._client.db()
   }
 }
 

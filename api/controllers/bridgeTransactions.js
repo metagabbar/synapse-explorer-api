@@ -1,5 +1,5 @@
 import { ethers } from "ethers"
-import {formatBridgeTransaction} from "../models/bridgeTransaction.js"
+import { formatBridgeTransaction } from "../models/bridgeTransaction.js"
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 
 
@@ -11,7 +11,7 @@ export async function bridgeTransactions({
 }) {
 
     if (address) {
-        address = ethers.utils.getAddress(address);
+        address = ethers.utils.getAddress(address)
     }
 
     let filter = {'$and': []}
