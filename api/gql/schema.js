@@ -1,6 +1,6 @@
 import {buildSchema} from "graphql";
 
-export const schema = buildSchema(`
+export const schema = buildSchema( /* GraphQL */  `
   type BridgeTransaction {
     fromInfo: PartialInfo
     toInfo: PartialInfo
@@ -23,7 +23,7 @@ export const schema = buildSchema(`
   }
 
   type Query {
-    getBridgeTransactions(
+    bridgeTransactions(
         chainId: Int,
         address: String,
         txnHash: String,

@@ -2,7 +2,7 @@ import {formatBridgeTransaction} from "../models/bridgeTransaction.js"
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import {ethers} from "ethers"
 
-export async function getBridgeTransactions ({
+export async function bridgeTransactions({
     chainId,
     address,
     txnHash,

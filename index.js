@@ -4,7 +4,7 @@ import cors from "cors"
 import {graphqlHTTP} from "express-graphql";
 import {schema} from "./api/gql/schema.js";
 import "./api/db/index.js"
-import {getBridgeTransactions} from "./api/controllers/getBridgeTransactions.js";
+import { bridgeTransactions } from "./api/controllers/bridgeTransactions.js";
 import {latestBridgeTransactions} from "./api/controllers/latestBridgeTransactions.js";
 
 
@@ -13,8 +13,8 @@ let app = express();
 app.use('/graphql', cors(), graphqlHTTP({
     schema: schema,
     rootValue: {
-        getBridgeTransactions: getBridgeTransactions,
-        latestBridgeTransactions: latestBridgeTransactions,
+        bridgeTransactions,
+        latestBridgeTransactions,
     },
     graphiql: true,
 
