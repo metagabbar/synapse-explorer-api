@@ -1,6 +1,8 @@
 import { ethers } from "ethers"
 import { formatBridgeTransaction } from "../models/bridgeTransaction.js"
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
+import {validateChainId} from "../validators/validateChainId.js";
+import {GraphQLError} from "graphql";
 
 
 export async function bridgeTransactions({
@@ -10,13 +12,15 @@ export async function bridgeTransactions({
     kappa
 }) {
 
-    if (address) {
-        address = ethers.utils.getAddress(address)
+    if (!chainId && !address && !txnHash && !kappa) {
+        throw new GraphQLError('a minimum of 1 parameter is required to filter results');
     }
 
     let filter = {'$and': []}
 
     if (chainId) {
+        validateChainId(chainId);
+
         filter['$and'].push({
             '$or': [
                 {'fromChainId': chainId},
@@ -26,6 +30,8 @@ export async function bridgeTransactions({
     }
 
     if (address) {
+        validateChainId(address);
+
         filter['$and'].push({
             '$or': [
                 {'fromAddress': address},
