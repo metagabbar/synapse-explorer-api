@@ -1,8 +1,8 @@
-import { ethers } from "ethers"
+import {GraphQLError} from "graphql";
 import { formatBridgeTransaction } from "../models/bridgeTransaction.js"
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import {validateChainId} from "../validators/validateChainId.js";
-import {GraphQLError} from "graphql";
+import {validateAddress} from "../validators/validateAddress.js";
 
 
 export async function bridgeTransactions({
@@ -30,7 +30,7 @@ export async function bridgeTransactions({
     }
 
     if (address) {
-        validateChainId(address);
+        validateAddress(address);
 
         filter['$and'].push({
             '$or': [
