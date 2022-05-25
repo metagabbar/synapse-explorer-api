@@ -4,7 +4,9 @@ import {ethers} from "ethers";
 import {validateChainId} from "../validators/validateChainId.js";
 import {validateAddress} from "../validators/validateAddress.js";
 
-export async function bridgeTransactionsCount({chainId, address}) {
+export async function bridgeTransactionsCount(_, args) {
+
+    const {chainId, address} = args
 
     let filter = {}
     if (chainId || address) {

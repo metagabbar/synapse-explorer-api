@@ -1,8 +1,8 @@
 import {ethers} from "ethers";
-import {GraphQLError} from "graphql";
+import { GraphQLYogaError } from '@graphql-yoga/node'
 
 export function validateAddress(address) {
     if (!ethers.utils.isAddress(address)) {
-        throw new GraphQLError('invalid address');
+        throw new GraphQLYogaError('invalid address');
     }
 }

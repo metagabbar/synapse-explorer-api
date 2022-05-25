@@ -5,12 +5,9 @@ import {validateChainId} from "../validators/validateChainId.js";
 import {validateAddress} from "../validators/validateAddress.js";
 
 
-export async function bridgeTransactions({
-    chainId,
-    address,
-    txnHash,
-    kappa
-}) {
+export async function bridgeTransactions(_, args) {
+
+    const { chainId, address, txnHash, kappa} = args;
 
     if (!chainId && !address && !txnHash && !kappa) {
         throw new GraphQLError('a minimum of 1 parameter is required to filter results');

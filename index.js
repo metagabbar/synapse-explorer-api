@@ -11,17 +11,6 @@ import {bridgeTransactionsCount} from "./api/controllers/bridgeTransactionsCount
 
 let app = express()
 
-// app.use('/graphql', cors(), graphqlHTTP({
-//     schema: schema,
-//     rootValue: {
-//         bridgeTransactions,
-//         latestBridgeTransactions,
-//         bridgeTransactionsCount
-//     },
-//     graphiql: true,
-
-// }))
-
 const yoga = createServer({
     schema: {
         typeDefs: schema,
