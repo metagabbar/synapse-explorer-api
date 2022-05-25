@@ -1,7 +1,8 @@
 import 'dotenv/config'
 import express from "express"
 import cors from "cors"
-import {graphqlHTTP} from "express-graphql"
+import { createServer } from '@graphql-yoga/node'
+
 import {schema} from "./api/gql/schema.js"
 import "./api/db/index.js"
 import {bridgeTransactions} from "./api/controllers/bridgeTransactions.js"
@@ -10,15 +11,36 @@ import {bridgeTransactionsCount} from "./api/controllers/bridgeTransactionsCount
 
 let app = express()
 
-app.use('/graphql', cors(), graphqlHTTP({
-    schema: schema,
-    rootValue: {
-        bridgeTransactions,
-        latestBridgeTransactions,
-        bridgeTransactionsCount
-    },
-    graphiql: true,
+// app.use('/graphql', cors(), graphqlHTTP({
+//     schema: schema,
+//     rootValue: {
+//         bridgeTransactions,
+//         latestBridgeTransactions,
+//         bridgeTransactionsCount
+//     },
+//     graphiql: true,
 
-}))
+// }))
+
+const yoga = createServer({
+    schema: {
+        typeDefs: schema,
+        resolvers: {
+            Query: {
+                bridgeTransactions,
+                latestBridgeTransactions,
+                bridgeTransactionsCount
+            },
+        },
+    },
+   graphiql: true,
+})
+
+app.use('/graphql', cors(), yoga);
 app.listen(4000)
 console.log('Running a GraphQL API server at localhost:4000/graphql')
+
+
+//    context: (req) => ({ // Context factory gets called for every request
+//       myToken: req.headers.get('authorization'),
+//    }),

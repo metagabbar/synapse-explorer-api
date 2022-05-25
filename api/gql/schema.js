@@ -1,9 +1,8 @@
-import {buildSchema} from "graphql"
 
-export const schema = buildSchema( /* GraphQL */  `
+export const schema = /* GraphQL */  `
   type BridgeTransaction {
     fromInfo: PartialInfo
-    toInfo: PartialInfo
+    toInfo:   PartialInfo
 
     kappa:       String
     pending:     Boolean
@@ -23,7 +22,7 @@ export const schema = buildSchema( /* GraphQL */  `
   }
 
   type Query {
-    
+
     """
     Returns bridged transactions filterable by chain, to/from address, to/from txn hash and keccak hash
     """
@@ -76,4 +75,4 @@ export const schema = buildSchema( /* GraphQL */  `
     ): String
 
   }
-`)
+`
