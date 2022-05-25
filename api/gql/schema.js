@@ -14,11 +14,11 @@ export const schema = /* GraphQL */  `
     address: String,
     txnHash: String,
 
-    value:        String,
-    valueUSD:     Float,
-    tokenAddress: String,
-    tokenSymbol:  String,
-    time:         Int,
+    value:          String,
+    formattedValue: String,
+    tokenAddress:   String,
+    tokenSymbol:    String,
+    time:           Int,
   }
 
   type Query {
