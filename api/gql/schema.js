@@ -1,5 +1,6 @@
+import {gql} from "apollo-server"
 
-export const schema = /* GraphQL */  `
+export const schema = gql`
   type BridgeTransaction {
     fromInfo: PartialInfo
     toInfo:   PartialInfo

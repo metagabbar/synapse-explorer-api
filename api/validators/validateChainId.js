@@ -1,9 +1,9 @@
 import {ChainId} from "@synapseprotocol/sdk";
-import { GraphQLYogaError } from '@graphql-yoga/node'
+import {UserInputError} from "apollo-server"
 
 export function validateChainId(chainId) {
 
     if (!Object.values(ChainId).includes(chainId)) {
-        throw new GraphQLYogaError('invalid chain id');
+        throw new UserInputError('invalid chain id');
     }
 }

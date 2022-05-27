@@ -1,8 +1,8 @@
 import {ethers} from "ethers";
-import { GraphQLYogaError } from '@graphql-yoga/node'
+import {UserInputError} from "apollo-server"
 
 export function validateAddress(address) {
     if (!ethers.utils.isAddress(address)) {
-        throw new GraphQLYogaError('invalid address');
+        throw new UserInputError('invalid address');
     }
 }

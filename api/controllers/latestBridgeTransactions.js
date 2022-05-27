@@ -1,7 +1,7 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import { formatBridgeTransaction } from "../models/bridgeTransaction.js"
 
-export async function latestBridgeTransactions(_, args) {
+export async function latestBridgeTransactions(parent, args, context, info) {
 
     // if (includePending) {
     //     filter['pending'] = true

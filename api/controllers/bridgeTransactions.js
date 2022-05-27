@@ -5,7 +5,7 @@ import {validateChainId} from "../validators/validateChainId.js";
 import {validateAddress} from "../validators/validateAddress.js";
 
 
-export async function bridgeTransactions(_, args) {
+export async function bridgeTransactions(parent, args, context, info) {
 
     const { chainId, address, txnHash, kappa} = args;
 
