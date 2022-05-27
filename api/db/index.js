@@ -1,12 +1,14 @@
 import { MongoConnection } from './MongoConnection.js'
+import {RedisConnection} from "./RedisConnection.js";
 
 
 await MongoConnection.createClient()
-
+await RedisConnection.createClient()
 
 // let client = await MongoConnection.getClientDb()
 let MONGO_DB = {}
 let BRIDGE_TRANSACTIONS_COLLECTION = {}
+let DB_PAGE_LIMIT = 50
 
 /**
  * Function to get the underlying mongo collection ptr to do
@@ -26,7 +28,5 @@ MongoConnection.getClientDb().then(async res => {
 
 
 
-
-
-export { MONGO_DB, BRIDGE_TRANSACTIONS_COLLECTION }
+export { MONGO_DB, BRIDGE_TRANSACTIONS_COLLECTION, DB_PAGE_LIMIT }
 

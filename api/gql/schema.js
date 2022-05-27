@@ -21,6 +21,10 @@ export const schema = gql`
     tokenSymbol:    String,
     time:           Int,
   }
+  
+  type ScalarResult {
+    value: Int
+  }
 
   type Query {
 
@@ -32,12 +36,16 @@ export const schema = gql`
         address: String,
         txnHash: String,
         kappa: String
+        page: Int=1
     ): [BridgeTransaction]
 
     """
     Returns the latest bridged transactions across all chains
     """
-    latestBridgeTransactions: [BridgeTransaction]
+    latestBridgeTransactions(
+      includePending: Boolean=true,
+      page: Int=1
+    ): [BridgeTransaction]
 
     """
     Returns number of transactions bridged filterable by chain and user.
@@ -46,7 +54,7 @@ export const schema = gql`
     bridgeTransactionsCount(
       chainId: Int,
       address: String,
-    ): String
+    ): ScalarResult
 
     """
     Returns the median value of bridged transactions by chain and user.
@@ -55,7 +63,7 @@ export const schema = gql`
     bridgeTransactionsMedianValue(
       chainId: Int,
       address: String,
-    ): String
+    ): ScalarResult
 
     """
     Returns the mean value of bridged transactions by chain and user.
@@ -64,7 +72,7 @@ export const schema = gql`
     bridgeTransactionsMeanValue(
       chainId: Int,
       address: String,
-    ): String
+    ): ScalarResult
 
     """
     Returns the total value of bridged transactions by chain and user.
@@ -73,7 +81,7 @@ export const schema = gql`
     bridgeTransactionsTotalValue(
       chainId: Int,
       txnHash: String,
-    ): String
+    ): ScalarResult
 
   }
 `
