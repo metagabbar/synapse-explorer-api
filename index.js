@@ -7,6 +7,7 @@ import "./api/db/index.js"
 import {bridgeTransactions} from "./api/controllers/bridgeTransactions.js"
 import {latestBridgeTransactions} from "./api/controllers/latestBridgeTransactions.js"
 import {bridgeTransactionsCount} from "./api/controllers/bridgeTransactionsCount.js"
+import {countByChainId} from './api/controllers/countByChainId.js'
 
 const server = new ApolloServer({
     typeDefs: schema,
@@ -14,7 +15,8 @@ const server = new ApolloServer({
         Query: {
             bridgeTransactions,
             latestBridgeTransactions,
-            bridgeTransactionsCount
+            bridgeTransactionsCount,
+            countByChainId,
         },
     },
     plugins: [

@@ -26,6 +26,11 @@ export const schema = gql`
     value: Int
   }
 
+  type CountResult {
+    chainId: Int
+    count: Int
+  }
+
   type Query {
 
     """
@@ -83,5 +88,13 @@ export const schema = gql`
       txnHash: String,
     ): ScalarResult
 
+    """
+    Returns counts of chain transactions by source and time. 
+    Specifying no parameters defaults to origin and 24 hours.
+    """
+    countByChainId(
+      source: String="origin",
+      hours: Int=24,
+    ): [CountResult]
   }
 `
