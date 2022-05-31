@@ -7,6 +7,9 @@ import "./api/db/index.js"
 import {bridgeTransactions} from "./api/controllers/bridgeTransactions.js"
 import {latestBridgeTransactions} from "./api/controllers/latestBridgeTransactions.js"
 import {bridgeTransactionsCount} from "./api/controllers/bridgeTransactionsCount.js"
+import {bridgeTransactionsMedianValue} from "./api/controllers/bridgeTransactionsMedianValue.js";
+import {bridgeTransactionsMeanValue} from "./api/controllers/bridgeTransactionsMeanValue.js";
+import {bridgeTransactionsTotalValue} from "./api/controllers/bridgeTransactionsTotalValue.js"
 
 const server = new ApolloServer({
     typeDefs: schema,
@@ -14,7 +17,10 @@ const server = new ApolloServer({
         Query: {
             bridgeTransactions,
             latestBridgeTransactions,
-            bridgeTransactionsCount
+            bridgeTransactionsCount,
+            bridgeTransactionsMedianValue,
+            bridgeTransactionsMeanValue,
+            bridgeTransactionsTotalValue
         },
     },
     plugins: [
