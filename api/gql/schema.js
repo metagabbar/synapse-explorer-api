@@ -23,7 +23,8 @@ export const schema = gql`
   }
   
   type ScalarResult {
-    value: Int
+    value: String
+    ETHValue: String
   }
 
   type CountResult {
@@ -62,7 +63,7 @@ export const schema = gql`
     ): ScalarResult
 
     """
-    Returns the median value of bridged transactions by chain and user.
+    Returns the median value of bridged transactions by chain and user in wei.
     Specifying no parameter returns the result across all transactions.
     """
     bridgeTransactionsMedianValue(
@@ -71,7 +72,7 @@ export const schema = gql`
     ): ScalarResult
 
     """
-    Returns the mean value of bridged transactions by chain and user.
+    Returns the mean value of bridged transactions by chain and user in wei.
     Specifying no parameter returns the result across all transactions.
     """
     bridgeTransactionsMeanValue(
