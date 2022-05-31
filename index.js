@@ -10,6 +10,7 @@ import {bridgeTransactionsCount} from "./api/controllers/bridgeTransactionsCount
 import {bridgeTransactionsMedianValue} from "./api/controllers/bridgeTransactionsMedianValue.js";
 import {bridgeTransactionsMeanValue} from "./api/controllers/bridgeTransactionsMeanValue.js";
 import {bridgeTransactionsTotalValue} from "./api/controllers/bridgeTransactionsTotalValue.js"
+import {countByChainId} from './api/controllers/countByChainId.js'
 
 const server = new ApolloServer({
     typeDefs: schema,
@@ -20,7 +21,8 @@ const server = new ApolloServer({
             bridgeTransactionsCount,
             bridgeTransactionsMedianValue,
             bridgeTransactionsMeanValue,
-            bridgeTransactionsTotalValue
+            bridgeTransactionsTotalValue,
+            countByChainId
         },
     },
     plugins: [
