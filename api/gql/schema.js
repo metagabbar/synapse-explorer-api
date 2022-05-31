@@ -38,6 +38,11 @@ export const schema = gql`
     count: Int
   }
 
+  type AddressRanking {
+    address: String
+    count: Int
+  }
+
   type Query {
 
     """
@@ -112,5 +117,13 @@ export const schema = gql`
       source: String="origin",
       hours: Int=24,
     ): [TokenCountResult]
+  
+    """
+    Returns addresses and transaction count (origin) over time.
+    Specifying no parameters defaults to 24 hours.
+    """
+    addressRanking(
+      hours: Int=24
+    ): [AddressRanking]
   }
-`
+`;
