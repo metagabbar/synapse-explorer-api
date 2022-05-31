@@ -27,8 +27,14 @@ export const schema = gql`
     ETHValue: String
   }
 
-  type CountResult {
+  type TransactionCountResult {
     chainId: Int
+    count: Int
+  }
+
+  type TokenCountResult {
+    chainId: Int
+    tokenAddress: String
     count: Int
   }
 
@@ -96,6 +102,15 @@ export const schema = gql`
     countByChainId(
       source: String="origin",
       hours: Int=24,
-    ): [CountResult]
+    ): [TransactionCountResult]
+    
+    """
+    Returns counts of token addresses source and time. 
+    Specifying no parameters defaults to origin and 24 hours.
+    """
+    countByTokenAddress(
+      source: String="origin",
+      hours: Int=24,
+    ): [TokenCountResult]
   }
 `
