@@ -32,7 +32,7 @@ export function getTokenSymbolFromAddress(chainId, address) {
     if (!chainId || !address) {
         return null;
     }
-    return ADDRESS_SYMBOL_MAP[chainId][address?.toLowerCase()]
+    return ADDRESS_SYMBOL_MAP[chainId.toString()][address?.toLowerCase()]
 }
 
 export function getDecimalsForChainFromTokenAddress(chainId, address) {
