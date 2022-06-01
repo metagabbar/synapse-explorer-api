@@ -1,22 +1,22 @@
-import {bignumber, divide} from "mathjs";
+import {bignumber, divide} from "mathjs"
 import {
     getDivisorForDecimals,
     getDecimalsForChainFromTokenAddress,
     getTokenSymbolFromAddress
-} from "../utils/sdkUtils.js";
+} from "../utils/sdkUtils.js"
 
 function getFormattedValue(tokenAddress, chainId, value) {
     try {
         if (!value) {
-            return null;
+            return null
         }
-        let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress);
-        let res = divide(bignumber(value), getDivisorForDecimals(decimals));
-        return res.toString();
+        let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress)
+        let res = divide(bignumber(value), getDivisorForDecimals(decimals))
+        return res.toString()
     } catch (err) {
-        console.error(err);
+        console.error(err)
     }
-    return null;
+    return null
 }
 
 export function formatBridgeTransaction(args) {

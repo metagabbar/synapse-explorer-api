@@ -1,6 +1,6 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
-import {queryAndCache} from "../db/utils.js";
-import {ethers, BigNumber} from "ethers";
+import {queryAndCache} from "../db/utils.js"
+import {ethers, BigNumber} from "ethers"
 
 async function dbQuery(args) {
     let filter = {}
@@ -24,7 +24,7 @@ async function dbQuery(args) {
         }, {
             $project: { "sentValue": 1}
         }
-    ]);
+    ])
 
     let sum = BigNumber.from(0)
     let cnt = BigNumber.from(0)
@@ -36,12 +36,12 @@ async function dbQuery(args) {
     }
 
     let weiMean = sum.div(cnt).toString()
-    let ethMean = ethers.utils.formatEther(weiMean).toString();
+    let ethMean = ethers.utils.formatEther(weiMean).toString()
     return {"value": weiMean, "ETHValue": ethMean}
 }
 
 export async function bridgeTransactionsMeanValue(_, args) {
     let queryName = 'bridgeTransactionsMeanValue'
     let res = await queryAndCache(queryName, args, dbQuery, 1)
-    return res;
+    return res
 }

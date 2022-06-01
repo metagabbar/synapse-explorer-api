@@ -6,7 +6,7 @@ export class RedisConnection {
 
     /** Instantiation/creation of mongodb client */
     static async createClient() {
-        return RedisConnection._client = new Redis(process.env.REDIS_URI);
+        return RedisConnection._client = new Redis(process.env.REDIS_URI)
     }
     /** get the underlying mongo client db */
     static async getClient() {

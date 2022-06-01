@@ -1,8 +1,8 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
-import {ethers} from "ethers";
-import {validateChainId} from "../validators/validateChainId.js";
-import {validateAddress} from "../validators/validateAddress.js";
-import {queryAndCache} from "../db/utils.js";
+import {ethers} from "ethers"
+import {validateChainId} from "../validators/validateChainId.js"
+import {validateAddress} from "../validators/validateAddress.js"
+import {queryAndCache} from "../db/utils.js"
 
 async function dbQuery(args) {
     let {chainId, address} = args
@@ -21,7 +21,7 @@ async function dbQuery(args) {
     }
 
     if (address) {
-        validateAddress(address);
+        validateAddress(address)
         address = ethers.utils.getAddress(address)
 
         filter['$and'].push({
@@ -32,7 +32,7 @@ async function dbQuery(args) {
         })
     }
 
-    let res = await BRIDGE_TRANSACTIONS_COLLECTION.countDocuments(filter);
+    let res = await BRIDGE_TRANSACTIONS_COLLECTION.countDocuments(filter)
     return {"value" : res}
 }
 
@@ -50,5 +50,5 @@ export async function bridgeTransactionsCount(_, args) {
     let expireIn = 15
     let res = await queryAndCache(queryName, args, dbQuery, expireIn)
 
-    return res;
+    return res
 }
