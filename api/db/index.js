@@ -8,7 +8,7 @@ await RedisConnection.createClient()
 // let client = await MongoConnection.getClientDb()
 let MONGO_DB = {}
 let BRIDGE_TRANSACTIONS_COLLECTION = {}
-let DB_PAGE_LIMIT = 50
+let DB_PAGE_LIMIT = 20
 
 /**
  * Function to get the underlying mongo collection ptr to do
