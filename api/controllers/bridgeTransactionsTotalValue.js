@@ -1,8 +1,7 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import {queryAndCache} from "../db/utils.js"
-import {bignumber, multiply, add} from "mathjs"
-import {getTokenSymbolFromAddress} from "../utils/sdkUtils.js"
 import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
+import {FixedNumber} from "ethers"
 
 async function dbQuery(args) {
     let filter = {}
@@ -29,21 +28,23 @@ async function dbQuery(args) {
     ], { cursor: { batchSize: 1 } })
 
     let cnt = 0
-    let sum = bignumber(0)
+    let sum = FixedNumber.from(0)
 
     for await (const txn of res) {
         if (txn.sentValue) {
             let value = getFormattedValue(txn.sentTokenAddress, txn.fromChainId, txn.sentValue) // Adjust for decimals
             let usdPrice = await getUSDPriceFromAddressOnChain(txn.fromChainId, txn.sentTokenAddress) // Get trading price
             if (usdPrice) {
-                let usdValue = multiply(value, usdPrice)
-                sum = add(sum, usdValue)
+                let usdValue = value.mulUnsafe(usdPrice)
+                sum = sum.addUnsafe(usdValue)
             }
         }
         cnt += 1
     }
 
-    return {"value": cnt.toString()}
+    console.log(sum)
+
+    return {"value": sum.toString()}
 }
 
 export async function bridgeTransactionsTotalValue(_, args) {

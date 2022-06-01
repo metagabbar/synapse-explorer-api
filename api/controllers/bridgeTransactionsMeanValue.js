@@ -2,7 +2,9 @@ import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import {queryAndCache} from "../db/utils.js"
 import {ethers, BigNumber} from "ethers"
 
-async function dbQuery(args) {
+export const CACHE_TTL = 3600
+
+export async function dbQuery(args) {
     let filter = {}
     if (Object.keys(args).length > 0) {
         filter = {$or : []}
@@ -42,6 +44,7 @@ async function dbQuery(args) {
 
 export async function bridgeTransactionsMeanValue(_, args) {
     let queryName = 'bridgeTransactionsMeanValue'
+    // TODO replace CACHE_TTL
     let res = await queryAndCache(queryName, args, dbQuery, 1)
     return res
 }

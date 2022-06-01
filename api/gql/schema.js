@@ -126,4 +126,4 @@ export const schema = gql`
       hours: Int=24
     ): [AddressRanking]
   }
-`;
+`
