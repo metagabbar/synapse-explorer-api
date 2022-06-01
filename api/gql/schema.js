@@ -73,7 +73,7 @@ export const schema = gql`
     Specifying no chainId returns the result across all transactions.
     """
     bridgeTransactionsCount(
-      duration: Duration!,
+      duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
     ): ScalarResult
@@ -83,8 +83,9 @@ export const schema = gql`
     Specifying no parameter returns the result across all transactions.
     """
     bridgeTransactionsTotalValue(
-      duration: Duration!,
+      duration: Duration=ALL_TIME,
       chainId: Int,
+      address: String,
     ): ScalarResult
 
     """
@@ -92,8 +93,8 @@ export const schema = gql`
     Specifying no parameter returns the result across all transactions.
     """
     bridgeTransactionsMedianValue(
-      duration: Duration!,
       chainId: Int,
+      address: String,
     ): ScalarResult
 
     """
@@ -101,8 +102,8 @@ export const schema = gql`
     Specifying no parameter returns the result across all transactions.
     """
     bridgeTransactionsMeanValue(
-      duration: Duration!,
       chainId: Int,
+      address: String,
     ): ScalarResult
 
     """
