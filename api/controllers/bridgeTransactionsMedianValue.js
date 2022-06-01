@@ -1,8 +1,10 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import {queryAndCache} from "../db/utils.js"
-import {ethers} from "ethers"
+import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
 
-async function dbQuery(args) {
+export const CACHE_TTL = 3600
+
+export async function dbQuery(args) {
     // Build filter
     let filter = {}
     if (Object.keys(args).length > 0) {
@@ -25,35 +27,30 @@ async function dbQuery(args) {
 
     // Find median
     let res = await BRIDGE_TRANSACTIONS_COLLECTION
-        .aggregate([
-            {
-                $match: filter
-            }, {
-                $sort: { sentValue: 1, kappa: 1}
-            }, {
-                $skip: toSkip
-            }, {
-                $limit: 1
-            }, {
-                $project : { sentValue : 1}
-            },
-        ], {
-            allowDiskUse : true, // required for large sorts
-            collation: {
-                locale: "en_US",
-                numericOrdering: true // sentValue is a string
-            }
-        }).toArray()
+        .find(filter)
+        .sort({ sentValue: 1, kappa: 1}).allowDiskUse()
+        .collation({locale: "en_US", numericOrdering: true})
+        .skip(toSkip)
+        .limit(1)
+        .toArray()
 
-    // Format and return
-    let medianInWei = res[0].sentValue
-    let medianInEth = ethers.utils.formatEther(medianInWei)
+    let medianTxn = res[0]
+    let usdMedianValue = "3650" // approx fallback median
 
-    return {"value": medianInWei, "ETHValue": medianInEth}
+    // Convert to USD and return
+    if (medianTxn) {
+        let value = getFormattedValue(medianTxn.sentTokenAddress, medianTxn.fromChainId, medianTxn.sentValue) // Adjust for decimals
+        let usdPrice = await getUSDPriceFromAddressOnChain(medianTxn.fromChainId, medianTxn.sentTokenAddress) // Get trading price
+        if (usdPrice) {
+            usdMedianValue = value.mulUnsafe(usdPrice).toString()
+        }
+    }
+
+    return {"value": usdMedianValue}
 }
 
 export async function bridgeTransactionsMedianValue(_, args) {
     let queryName = 'bridgeTransactionsMedianValue'
-    let res = await queryAndCache(queryName, args, dbQuery, 1)
+    let res = await queryAndCache(queryName, args, dbQuery, CACHE_TTL)
     return res
 }

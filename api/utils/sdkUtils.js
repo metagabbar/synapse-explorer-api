@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import {BaseToken, Tokens, ChainId} from "@synapseprotocol/sdk"
-import {bignumber} from "mathjs"
+import {FixedNumber, ethers} from "ethers"
 
 
 let INVERTED_CHAIN_ID = {}
@@ -46,5 +46,7 @@ export function getDivisorForDecimals(decimals) {
     if (decimals in BIGNUMBER_DECIMAL_MAP) {
         return BIGNUMBER_DECIMAL_MAP[decimals]
     }
-    return BIGNUMBER_DECIMAL_MAP[decimals] = bignumber(Math.pow(10, decimals))
+    return BIGNUMBER_DECIMAL_MAP[decimals] = FixedNumber.from(
+        ethers.utils.parseUnits("1", decimals)
+    )
 }

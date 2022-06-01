@@ -5,47 +5,20 @@ import {queryAndCache} from "../db/utils.js"
 async function dbQuery(args) {
     let {includePending, page} = args
 
+    let filter = {}
+    if (!includePending) {
+        filter['pending'] = false
+    }
+
     return await BRIDGE_TRANSACTIONS_COLLECTION
-        .find({})
+        .find(filter)
         .sort({ "receivedTime": -1, "sentTime": -1 })
         .skip(DB_PAGE_LIMIT * (page - 1))
         .limit(DB_PAGE_LIMIT)
         .toArray()
-
-
-        // .aggregate([
-        //     {
-        //         $addFields: {
-        //             "sortField": {
-        //                 $cond: {
-        //                     if: { $ne: [ "$receivedTime", null ] },
-        //                     then: "$receivedTime",
-        //                     else: "$sentTime"
-        //                 }
-        //             }
-        //         }
-        //     },
-        //     {
-        //         $sort: {
-        //             "sortField": -1
-        //         }
-        //     },
-        //     {
-        //         $skip: DB_PAGE_LIMIT * (page - 1)
-        //     },
-        //     {
-        //         $limit: DB_PAGE_LIMIT
-        //     }
-        // ]).toArray()
 }
 
 export async function latestBridgeTransactions(_, args) {
-
-    // if (includePending) {
-    //     filter['pending'] = true
-    // } else {
-    //     filter['pending'] = false
-    // }
 
     let queryName = 'latestBridgeTransactions'
     let res = await queryAndCache(queryName, args, dbQuery)

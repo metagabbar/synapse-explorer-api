@@ -2,6 +2,7 @@ import {getDecimalsForChainFromTokenAddress, getDivisorForDecimals, getTokenSymb
 import {bignumber, divide} from "mathjs"
 import {BaseToken, Tokens} from "@synapseprotocol/sdk"
 import fetch from "node-fetch"
+import {FixedNumber} from "ethers"
 
 let TOKEN_SYMBOLS = []
 let PRICE_MAP = {}
@@ -18,7 +19,7 @@ Object.keys(Tokens).forEach(async key => {
  * @param tokenAddress
  * @param chainId
  * @param value
- * @return {bignumber|null}
+ * @return {FixedNumber|null}
  */
 export function getFormattedValue(tokenAddress, chainId, value) {
     try {
@@ -26,7 +27,7 @@ export function getFormattedValue(tokenAddress, chainId, value) {
             return null
         }
         let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress)
-        let res = divide(bignumber(value), getDivisorForDecimals(decimals))
+        let res = FixedNumber.from(value).divUnsafe(getDivisorForDecimals(decimals))
         return res
     } catch (err) {
         console.error(err)
@@ -44,7 +45,7 @@ export function getFormattedValue(tokenAddress, chainId, value) {
 export async function getUSDPriceFromAddressOnChain(chainId, tokenAddress) {
     let tokenSymbol = getTokenSymbolFromAddress(chainId, tokenAddress)
     if (!tokenSymbol) {
-        return bignumber(0)
+        return FixedNumber.from(0)
     }
     return await getUSDPriceFromSymbol(tokenSymbol)
 }
@@ -53,7 +54,7 @@ export async function getUSDPriceFromAddressOnChain(chainId, tokenAddress) {
  * Returns price of token as a BigNumber
  *
  * @param tokenSymbol
- * @return {Promise<bignumber|*>}
+ * @return {Promise<FixedNumber|*>}
  */
 export async function getUSDPriceFromSymbol(tokenSymbol) {
 
@@ -79,7 +80,7 @@ export async function getUSDPriceFromSymbol(tokenSymbol) {
         let res = await fetch(`https://min-api.cryptocompare.com/data/price?fsym=${tokenSymbol}&tsyms=USD`, {})
         let parsedJson = await res.json()
         if ("USD" in parsedJson) {
-            return PRICE_MAP[tokenSymbol] = parsedJson["USD"]
+            return PRICE_MAP[tokenSymbol] = FixedNumber.from(parsedJson["USD"].toString())
         }
     } catch (err) {
         console.log(err)
