@@ -1,4 +1,4 @@
-import {RedisConnection} from "./RedisConnection.js";
+import {RedisConnection} from "./RedisConnection.js"
 
 /**
  * Use this function as a wrapper for any mongo query we wish to cache
@@ -36,5 +36,5 @@ export async function queryAndCache(queryName, args, dbCallback, expireInSeconds
         res = JSON.parse(cachedRes)
     }
 
-    return res;
+    return res
 }

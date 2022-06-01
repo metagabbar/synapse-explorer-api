@@ -1,5 +1,5 @@
 import { MongoConnection } from './MongoConnection.js'
-import {RedisConnection} from "./RedisConnection.js";
+import {RedisConnection} from "./RedisConnection.js"
 
 
 await MongoConnection.createClient()

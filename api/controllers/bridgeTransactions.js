@@ -1,13 +1,13 @@
-import {GraphQLError} from "graphql";
+import {GraphQLError} from "graphql"
 import { formatBridgeTransaction } from "../models/bridgeTransaction.js"
 import { BRIDGE_TRANSACTIONS_COLLECTION, DB_PAGE_LIMIT } from "../db/index.js"
-import {validateChainId} from "../validators/validateChainId.js";
-import {validateAddress} from "../validators/validateAddress.js";
-import {ethers} from "ethers";
-import {queryAndCache} from "../db/utils.js";
+import {validateChainId} from "../validators/validateChainId.js"
+import {validateAddress} from "../validators/validateAddress.js"
+import {ethers} from "ethers"
+import {queryAndCache} from "../db/utils.js"
 
 async function dbQuery(args) {
-    let { chainId, address, txnHash, kappa, page} = args;
+    let { chainId, address, txnHash, kappa, page} = args
 
     let filter = {'$and': []}
 
@@ -63,13 +63,13 @@ export async function bridgeTransactions(_, args) {
 
     // Basic validation
     if (Object.keys(args).length === 0) {
-        throw new GraphQLError('a minimum of 1 parameter is required to filter results');
+        throw new GraphQLError('a minimum of 1 parameter is required to filter results')
     }
     if (args.chainId) {
-        validateChainId(args.chainId);
+        validateChainId(args.chainId)
     }
     if (args.address) {
-        validateAddress(args.address);
+        validateAddress(args.address)
         args.address = ethers.utils.getAddress(args.address)
     }
 

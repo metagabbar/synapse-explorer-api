@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../api/db/index.js"
-import {BigNumber, ethers} from "ethers";
+import {BigNumber, ethers} from "ethers"
 
 async function dbQuery(args) {
     let res = await BRIDGE_TRANSACTIONS_COLLECTION.aggregate([
@@ -15,10 +15,10 @@ async function dbQuery(args) {
             cnt += 1
         }
     }
-    console.log(ethers.utils.formatEther(sum.toString()));
-    console.log(cnt);
+    console.log(ethers.utils.formatEther(sum.toString()))
+    console.log(cnt)
 
     return {"value": 1, "ETHValue": 1}
 }
 
-setTimeout(() => {  dbQuery({})}, 1000);
+setTimeout(() => {  dbQuery({})}, 1000)

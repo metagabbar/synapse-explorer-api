@@ -1,8 +1,8 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
-import {queryAndCache} from "../db/utils.js";
-import {bignumber, multiply, add} from "mathjs";
-import {getTokenSymbolFromAddress} from "../utils/sdkUtils.js";
-import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js";
+import {queryAndCache} from "../db/utils.js"
+import {bignumber, multiply, add} from "mathjs"
+import {getTokenSymbolFromAddress} from "../utils/sdkUtils.js"
+import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
 
 async function dbQuery(args) {
     let filter = {}
@@ -26,7 +26,7 @@ async function dbQuery(args) {
         }, {
             $project: { "sentValue": 1, "fromChainId" : 1, "sentTokenAddress" : 1}
         }
-    ], { cursor: { batchSize: 1 } });
+    ], { cursor: { batchSize: 1 } })
 
     let cnt = 0
     let sum = bignumber(0)
@@ -49,5 +49,5 @@ async function dbQuery(args) {
 export async function bridgeTransactionsTotalValue(_, args) {
     let queryName = 'bridgeTransactionsTotalValue'
     let res = await queryAndCache(queryName, args, dbQuery, 1)
-    return res;
+    return res
 }

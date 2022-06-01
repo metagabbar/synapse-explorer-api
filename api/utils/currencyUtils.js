@@ -1,6 +1,6 @@
-import {getDecimalsForChainFromTokenAddress, getDivisorForDecimals, getTokenSymbolFromAddress} from "./sdkUtils.js";
-import {bignumber, divide} from "mathjs";
-import {BaseToken, Tokens} from "@synapseprotocol/sdk";
+import {getDecimalsForChainFromTokenAddress, getDivisorForDecimals, getTokenSymbolFromAddress} from "./sdkUtils.js"
+import {bignumber, divide} from "mathjs"
+import {BaseToken, Tokens} from "@synapseprotocol/sdk"
 import fetch from "node-fetch"
 
 let TOKEN_SYMBOLS = []
@@ -23,15 +23,15 @@ Object.keys(Tokens).forEach(async key => {
 export function getFormattedValue(tokenAddress, chainId, value) {
     try {
         if (!value) {
-            return null;
+            return null
         }
-        let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress);
-        let res = divide(bignumber(value), getDivisorForDecimals(decimals));
-        return res;
+        let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress)
+        let res = divide(bignumber(value), getDivisorForDecimals(decimals))
+        return res
     } catch (err) {
-        console.error(err);
+        console.error(err)
     }
-    return null;
+    return null
 }
 
 /***
@@ -46,7 +46,7 @@ export async function getUSDPriceFromAddressOnChain(chainId, tokenAddress) {
     if (!tokenSymbol) {
         return bignumber(0)
     }
-    return await getUSDPriceFromSymbol(tokenSymbol);
+    return await getUSDPriceFromSymbol(tokenSymbol)
 }
 
 /***
@@ -77,7 +77,7 @@ export async function getUSDPriceFromSymbol(tokenSymbol) {
 
     try {
         let res = await fetch(`https://min-api.cryptocompare.com/data/price?fsym=${tokenSymbol}&tsyms=USD`, {})
-        let parsedJson = await res.json();
+        let parsedJson = await res.json()
         if ("USD" in parsedJson) {
             return PRICE_MAP[tokenSymbol] = parsedJson["USD"]
         }

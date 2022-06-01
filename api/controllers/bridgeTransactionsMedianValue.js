@@ -1,6 +1,6 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
-import {queryAndCache} from "../db/utils.js";
-import {ethers} from "ethers";
+import {queryAndCache} from "../db/utils.js"
+import {ethers} from "ethers"
 
 async function dbQuery(args) {
     // Build filter
@@ -20,8 +20,8 @@ async function dbQuery(args) {
     }
 
     // Find number of documents
-    let docCount = await BRIDGE_TRANSACTIONS_COLLECTION.countDocuments(filter);
-    let toSkip = docCount / 2;
+    let docCount = await BRIDGE_TRANSACTIONS_COLLECTION.countDocuments(filter)
+    let toSkip = docCount / 2
 
     // Find median
     let res = await BRIDGE_TRANSACTIONS_COLLECTION
@@ -55,5 +55,5 @@ async function dbQuery(args) {
 export async function bridgeTransactionsMedianValue(_, args) {
     let queryName = 'bridgeTransactionsMedianValue'
     let res = await queryAndCache(queryName, args, dbQuery, 1)
-    return res;
+    return res
 }

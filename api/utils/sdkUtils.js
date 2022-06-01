@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import {BaseToken, Tokens, ChainId} from "@synapseprotocol/sdk"
-import {bignumber} from "mathjs";
+import {bignumber} from "mathjs"
 
 
 let INVERTED_CHAIN_ID = {}
@@ -14,7 +14,7 @@ export function getNetworkNameFromId(id) {
 
 let ADDRESS_SYMBOL_MAP = {}
 let ADDRESS_TOKEN_MAP = {}
-let BIGNUMBER_DECIMAL_MAP = {};
+let BIGNUMBER_DECIMAL_MAP = {}
 
 for (const chainId of _.values(ChainId)) {
     ADDRESS_SYMBOL_MAP[chainId] = {}
@@ -30,21 +30,21 @@ for (const chainId of _.values(ChainId)) {
 
 export function getTokenSymbolFromAddress(chainId, address) {
     if (!chainId || !address) {
-        return null;
+        return null
     }
     return ADDRESS_SYMBOL_MAP[chainId.toString()][address?.toLowerCase()]
 }
 
 export function getDecimalsForChainFromTokenAddress(chainId, address) {
     if (!chainId || !address) {
-        return null;
+        return null
     }
     return ADDRESS_TOKEN_MAP[chainId][address?.toLowerCase()]?.decimals(chainId)
 }
 
 export function getDivisorForDecimals(decimals) {
     if (decimals in BIGNUMBER_DECIMAL_MAP) {
-        return BIGNUMBER_DECIMAL_MAP[decimals];
+        return BIGNUMBER_DECIMAL_MAP[decimals]
     }
     return BIGNUMBER_DECIMAL_MAP[decimals] = bignumber(Math.pow(10, decimals))
 }
