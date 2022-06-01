@@ -14,18 +14,30 @@ Object.keys(Tokens).forEach(async key => {
 })
 
 /***
- * Takes in a wei-ish value and converts it to actual number of tokens
+ * Takes in a wei-ish sentValue and converts it to actual number of tokens
  * sent or received depending on the decimals supported by token
  * @param tokenAddress
  * @param chainId
- * @param value
+ * @param sentValue
+ * @param receivedValue
  * @return {FixedNumber|null}
  */
-export function getFormattedValue(tokenAddress, chainId, value) {
+export function getFormattedValue(tokenAddress, chainId, sentValue, receivedValue=null) {
     try {
-        if (!value) {
+        if (!sentValue) {
             return null
         }
+
+        // GMX sentValue is ridiculous
+        let value = sentValue
+        let symbol = getTokenSymbolFromAddress(chainId, tokenAddress)
+        if (symbol === "GMX") {
+            if (!receivedValue) {
+                return FixedNumber.from("0")
+            }
+            value = receivedValue
+        }
+
         let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress)
         let res = FixedNumber.from(value).divUnsafe(getDivisorForDecimals(decimals))
         return res

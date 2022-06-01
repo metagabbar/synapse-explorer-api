@@ -2,7 +2,7 @@ import { BRIDGE_TRANSACTIONS_COLLECTION, DB_PAGE_LIMIT } from "../db/index.js"
 import { formatBridgeTransaction } from "../models/bridgeTransaction.js"
 import {queryAndCache} from "../db/utils.js"
 
-async function dbQuery(args) {
+async function query(args) {
     let {includePending, page} = args
 
     let filter = {}
@@ -21,7 +21,7 @@ async function dbQuery(args) {
 export async function latestBridgeTransactions(_, args) {
 
     let queryName = 'latestBridgeTransactions'
-    let res = await queryAndCache(queryName, args, dbQuery)
+    let res = await queryAndCache(queryName, args, query)
 
     return res.map((txn) => {
         return formatBridgeTransaction(txn)

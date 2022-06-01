@@ -11,7 +11,7 @@ function getFormattedValue(tokenAddress, chainId, value) {
             return null
         }
         let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress)
-        let res = divide(bignumber(value), getDivisorForDecimals(decimals))
+        let res = divide(bignumber(value), bignumber(getDivisorForDecimals(decimals).toString()))
         return res.toString()
     } catch (err) {
         console.error(err)

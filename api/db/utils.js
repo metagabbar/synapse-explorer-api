@@ -6,16 +6,16 @@ import {RedisConnection} from "./RedisConnection.js"
  * If result is found in Redis, it is parsed and sent back. If not, Mongo
  * is queried, results are cached and then sent back
  *
- * The dbCallback argument takes in a function that returns the results
+ * The queryCallback argument takes in a function that returns the results
  * of a mongo query for this set of queryName + args
  *
  * @param queryName
  * @param args
- * @param dbCallback
+ * @param queryCallback
  * @param {Number} expireInSeconds Number of seconds to cache
  * @return {Promise<Object[]>}
  */
-export async function queryAndCache(queryName, args, dbCallback, expireInSeconds=30) {
+export async function queryAndCache(queryName, args, queryCallback, expireInSeconds=30) {
     let res
     let cachedRes = await RedisConnection.getForQuery(
         queryName,
@@ -24,7 +24,7 @@ export async function queryAndCache(queryName, args, dbCallback, expireInSeconds
 
     if (!cachedRes) {
         // Get response from DB and cache it
-        res = await dbCallback(args)
+        res = await queryCallback(args)
         await RedisConnection.setForQuery(
             queryName,
             args,

@@ -28,6 +28,12 @@ for (const chainId of _.values(ChainId)) {
     }
 }
 
+/**
+ * Gets token symbol for contract address on chain
+ * @param {String | Number} chainId
+ * @param {String} address
+ * @return {null|*}
+ */
 export function getTokenSymbolFromAddress(chainId, address) {
     if (!chainId || !address) {
         return null

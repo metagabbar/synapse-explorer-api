@@ -4,15 +4,15 @@ import {ethers, BigNumber} from "ethers"
 
 export const CACHE_TTL = 3600
 
-export async function dbQuery(args) {
+// TODO: Fix
+export async function query(args) {
     let filter = {}
     if (Object.keys(args).length > 0) {
         filter = {$or : []}
     }
 
     if (args.chainId) {
-        filter['$or'].push({ fromChainId: args.chainId})
-        filter['$or'].push({ toChainId: args.chainId})
+
     }
 
     if (args.address) {
@@ -44,7 +44,6 @@ export async function dbQuery(args) {
 
 export async function bridgeTransactionsMeanValue(_, args) {
     let queryName = 'bridgeTransactionsMeanValue'
-    // TODO replace CACHE_TTL
-    let res = await queryAndCache(queryName, args, dbQuery, 1)
+    let res = await queryAndCache(queryName, args, query, 1)
     return res
 }

@@ -4,7 +4,7 @@ import {validateChainId} from "../validators/validateChainId.js"
 import {validateAddress} from "../validators/validateAddress.js"
 import {queryAndCache} from "../db/utils.js"
 
-async function dbQuery(args) {
+async function query(args) {
     let {chainId, address} = args
     let filter = {}
     if (chainId || address) {
@@ -48,7 +48,7 @@ export async function bridgeTransactionsCount(_, args) {
 
     let queryName = 'bridgeTransactionsCount'
     let expireIn = 15
-    let res = await queryAndCache(queryName, args, dbQuery, expireIn)
+    let res = await queryAndCache(queryName, args, query, expireIn)
 
     return res
 }

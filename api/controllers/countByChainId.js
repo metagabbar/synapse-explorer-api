@@ -1,7 +1,7 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import { queryAndCache } from "../db/utils.js"
 
-async function dbQuery({ source = "origin", hours = 24 }) {
+async function query({ source = "origin", hours = 24 }) {
   let date = new Date(Date.now() - hours * 60 * 60 * 1000)
   let unixTimestamp = parseInt((date.getTime() / 1000).toFixed(0))
   let direction
@@ -30,7 +30,7 @@ async function dbQuery({ source = "origin", hours = 24 }) {
 export async function countByChainId(_, args) {
   let queryName = "countByChainId"
   let expireIn = 15
-  let res = await queryAndCache(queryName, args, dbQuery, expireIn)
+  let res = await queryAndCache(queryName, args, query, expireIn)
 
   return res
 }

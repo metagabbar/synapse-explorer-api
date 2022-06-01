@@ -4,7 +4,7 @@ import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currenc
 
 export const CACHE_TTL = 3600
 
-export async function dbQuery(args) {
+export async function query(args) {
     // Build filter
     let filter = {}
     if (Object.keys(args).length > 0) {
@@ -50,7 +50,7 @@ export async function dbQuery(args) {
 }
 
 export async function bridgeTransactionsMedianValue(_, args) {
-    let queryName = 'bridgeTransactionsMedianValue'
-    let res = await queryAndCache(queryName, args, dbQuery, CACHE_TTL)
+    let queryName = 'median'
+    let res = await queryAndCache(queryName, args, query, CACHE_TTL)
     return res
 }
