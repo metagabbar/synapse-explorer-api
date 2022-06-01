@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../api/db/index.js"
 import {BigNumber, ethers} from "ethers"
 
-async function dbQuery(args) {
+async function query(args) {
     let res = await BRIDGE_TRANSACTIONS_COLLECTION.aggregate([
         // {$match: {kappa: "0xd82af4f2b65b58432e2826a1addee96fab2952b6564a2633d344793d83c42364"}},
         {$project : {"sentValue" : 1}}
@@ -21,4 +21,4 @@ async function dbQuery(args) {
     return {"value": 1, "ETHValue": 1}
 }
 
-setTimeout(() => {  dbQuery({})}, 1000)
+setTimeout(() => {  query({})}, 1000)

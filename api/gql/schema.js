@@ -24,7 +24,6 @@ export const schema = gql`
   
   type ScalarResult {
     value: String
-    ETHValue: String
   }
 
   type TransactionCountResult {
@@ -42,7 +41,12 @@ export const schema = gql`
     address: String
     count: Int
   }
-
+  
+  enum Duration {
+    PAST_DAY
+    ALL_TIME
+  }
+  
   type Query {
 
     """
@@ -65,39 +69,40 @@ export const schema = gql`
     ): [BridgeTransaction]
 
     """
-    Returns number of transactions bridged filterable by chain and user.
-    Specifying no parameter returns the result across all transactions.
+    Returns count of transactions bridged for a given duration.
+    Specifying no chainId returns the result across all transactions.
     """
     bridgeTransactionsCount(
+      duration: Duration!,
       chainId: Int,
       address: String,
     ): ScalarResult
 
     """
-    Returns the median value of bridged transactions by chain and user in wei.
-    Specifying no parameter returns the result across all transactions.
-    """
-    bridgeTransactionsMedianValue(
-      chainId: Int,
-      address: String,
-    ): ScalarResult
-
-    """
-    Returns the mean value of bridged transactions by chain and user in wei.
-    Specifying no parameter returns the result across all transactions.
-    """
-    bridgeTransactionsMeanValue(
-      chainId: Int,
-      address: String,
-    ): ScalarResult
-
-    """
-    Returns the total value of bridged transactions by chain and user.
+    Returns the total value of bridged transactions in USD by chain.
     Specifying no parameter returns the result across all transactions.
     """
     bridgeTransactionsTotalValue(
+      duration: Duration!,
       chainId: Int,
-      txnHash: String,
+    ): ScalarResult
+
+    """
+    Returns the total value of bridged transactions for a chain id and given duration.
+    Specifying no parameter returns the result across all transactions.
+    """
+    bridgeTransactionsMedianValue(
+      duration: Duration!,
+      chainId: Int,
+    ): ScalarResult
+
+    """
+    Returns mean value of transactions bridged for a given duration.
+    Specifying no parameter returns the result across all transactions.
+    """
+    bridgeTransactionsMeanValue(
+      duration: Duration!,
+      chainId: Int,
     ): ScalarResult
 
     """
@@ -123,7 +128,7 @@ export const schema = gql`
     Specifying no parameters defaults to 24 hours.
     """
     addressRanking(
-      hours: Int=24
+        hours: Int=24
     ): [AddressRanking]
   }
 `

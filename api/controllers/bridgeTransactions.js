@@ -6,7 +6,7 @@ import {validateAddress} from "../validators/validateAddress.js"
 import {ethers} from "ethers"
 import {queryAndCache} from "../db/utils.js"
 
-async function dbQuery(args) {
+async function query(args) {
     let { chainId, address, txnHash, kappa, page} = args
 
     let filter = {'$and': []}
@@ -74,7 +74,7 @@ export async function bridgeTransactions(_, args) {
     }
 
     let queryName = 'bridgeTransactions'
-    let res = await queryAndCache(queryName, args, dbQuery)
+    let res = await queryAndCache(queryName, args, query)
 
     return res.map((txn) => {
         return formatBridgeTransaction(txn)

@@ -4,12 +4,12 @@ import * as bridgeTransactionsMedianValue from "../api/controllers/bridgeTransac
 import * as bridgeTransactionsMeanValue from "../api/controllers/bridgeTransactionsMeanValue.js"
 import {CACHE_TTL} from "../api/controllers/bridgeTransactionsMedianValue.js"
 
-async function computeMedian() {
+async function computebridgeTransactionMedianValue() {
     // TODO for all chains
     await queryAndCache(
         'bridgeTransactionsMedianValue',
         {},
-        bridgeTransactionsMedianValue.dbQuery,
+        bridgeTransactionsMedianValue.query,
         bridgeTransactionsMedianValue.CACHE_TTL
     )
 }
@@ -19,7 +19,7 @@ async function computeMean() {
     await queryAndCache(
         'bridgeTransactionsMeanValue',
         {},
-        bridgeTransactionsMeanValue.dbQuery,
+        bridgeTransactionsMeanValue.query,
         bridgeTransactionsMeanValue.CACHE_TTL
     )
 }
@@ -29,7 +29,7 @@ async function computeMean() {
     await queryAndCache(
         'bridgeTransactionsMeanValue',
         {},
-        bridgeTransactionsMeanValue.dbQuery,
+        bridgeTransactionsMeanValue.query,
         bridgeTransactionsMeanValue.CACHE_TTL
     )
 }
