@@ -52,4 +52,3 @@ export async function bridgeTransactionsCount(_, args) {
 
     return res
 }
-
