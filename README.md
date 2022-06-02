@@ -16,6 +16,9 @@ query {
 }
 ```
 
+### Hot-Code Reloading in Local dev
+`npm install -g nodemon`
+
 ### Local setup
 
 - `npm install`
@@ -24,3 +27,4 @@ query {
     - `docker run -p 27017:27017 mongo`
     - `docker run -p 6379:6379 redis`
 - `npm start`
+

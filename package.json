@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "run": "node api/index.js",
-    "start": "node api/index.js"
+    "start": "nodemon api/index.js"
   },
   "keywords": [],
   "author": "",
@@ -25,5 +25,8 @@
     "mongodb": "^4.5.0",
     "node-fetch": "^2.6.7",
     "object-hash": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   }
 }
