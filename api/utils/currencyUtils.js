@@ -1,5 +1,4 @@
 import {getDecimalsForChainFromTokenAddress, getDivisorForDecimals, getTokenSymbolFromAddress} from "./sdkUtils.js"
-import {bignumber, divide} from "mathjs"
 import {BaseToken, Tokens} from "@synapseprotocol/sdk"
 import fetch from "node-fetch"
 import {FixedNumber} from "ethers"
@@ -48,11 +47,11 @@ export function getFormattedValue(tokenAddress, chainId, sentValue, receivedValu
 }
 
 /***
- * Returns price for address on a chain as a BigNumber
+ * Returns price for address on a chain as a FixedNumber
  *
  * @param chainId
  * @param tokenAddress
- * @return {Promise<bignumber|*>}
+ * @return {Promise<FixedNumber|*>}
  */
 export async function getUSDPriceFromAddressOnChain(chainId, tokenAddress) {
     let tokenSymbol = getTokenSymbolFromAddress(chainId, tokenAddress)
@@ -63,7 +62,7 @@ export async function getUSDPriceFromAddressOnChain(chainId, tokenAddress) {
 }
 
 /***
- * Returns price of token as a BigNumber
+ * Returns price of token as a FixedNumber
  *
  * @param tokenSymbol
  * @return {Promise<FixedNumber|*>}
@@ -84,6 +83,7 @@ export async function getUSDPriceFromSymbol(tokenSymbol) {
         return
     }
 
+    // TODO: Move to redis!
     if (tokenSymbol in PRICE_MAP) {
         return PRICE_MAP[tokenSymbol]
     }

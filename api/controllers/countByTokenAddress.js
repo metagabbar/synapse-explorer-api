@@ -1,26 +1,44 @@
-import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
-import { queryAndCache } from "../db/utils.js"
+import { BRIDGE_TRANSACTIONS_COLLECTION } from '../db/index.js'
+import { queryAndCache } from '../db/utils.js'
 
-async function query({ source = "origin", hours = 24 }) {
+async function query({ address, direction, hours = 24 }) {
   let date = new Date(Date.now() - hours * 60 * 60 * 1000)
   let unixTimestamp = parseInt((date.getTime() / 1000).toFixed(0))
-  let direction
+  let tokenAddress
   let chainId
+  let matcher
 
-  if (source === "origin") {
-    direction = "$sentTokenAddress"
-    chainId = "$fromChainId"
+  if (direction === 'OUT') {
+    tokenAddress = '$sentTokenAddress'
+    chainId = '$fromChainId'
   } else {
-    direction = "$receivedTokenAddress"
-    chainId = "$toChainId"
+    tokenAddress = '$receivedTokenAddress'
+    chainId = '$toChainId'
+  }
+
+  if (address) {
+    matcher = {
+      $match: {
+        $and: [
+          {
+            receivedTime: { $gte: unixTimestamp },
+          },
+          {
+            fromAddress: { $eq: address },
+          },
+        ],
+      },
+    }
+  } else {
+    matcher = { $match: { receivedTime: { $gte: unixTimestamp } } }
   }
 
   let aggregator = await BRIDGE_TRANSACTIONS_COLLECTION.aggregate([
-    { $match: { receivedTime: { $gte: unixTimestamp } } },
+    matcher,
     {
       $group: {
         _id: {
-          tokenAddress: direction,
+          tokenAddress: tokenAddress,
           chainId: chainId,
         },
         count: {
@@ -46,7 +64,7 @@ async function query({ source = "origin", hours = 24 }) {
 }
 
 export async function countByTokenAddress(_, args) {
-  let queryName = "countByTokenAddress"
+  let queryName = 'countByTokenAddress'
   let expireIn = 15
   let res = await queryAndCache(queryName, args, query, expireIn)
 

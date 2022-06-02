@@ -47,6 +47,11 @@ export const schema = gql`
     ALL_TIME
   }
   
+  enum Direction {
+    IN
+    OUT
+  }
+  
   type Query {
 
     """
@@ -111,7 +116,8 @@ export const schema = gql`
     Specifying no parameters defaults to origin and 24 hours.
     """
     countByChainId(
-      source: String="origin",
+      address: String,
+      direction: Direction=IN,
       hours: Int=24,
     ): [TransactionCountResult]
     
@@ -120,7 +126,8 @@ export const schema = gql`
     Specifying no parameters defaults to origin and 24 hours.
     """
     countByTokenAddress(
-      source: String="origin",
+      address: String,
+      direction: Direction=IN,
       hours: Int=24,
     ): [TokenCountResult]
   

@@ -16,7 +16,15 @@ async function query(args) {
         chainId = chainId ? chainId : 0
 
         if (duration === "PAST_DAY") {
-            // TODO: Shift to DB query. This is somewhat inaccurate
+            // TODO: Shift to DB query as below. This is somewhat inaccurate
+            // Special case where we need to pull all data across chains or a specific chain
+            // if (duration === "ALL_TIME" && !address) {
+            //     console.log("Special case!")
+            //     chainId = chainId ? chainId : 0
+            //     let sum = await getAllTimeTotalForChains(chainId)
+            //     return {"value": sum.toString()}
+            // }
+
             sum = await getPastDayTotalForChains(chainId)
         } else if (duration === "ALL_TIME") {
             sum = await getAllTimeTotalForChains(chainId)
