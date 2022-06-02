@@ -3,7 +3,7 @@ import {ethers} from "ethers"
 import {validateChainId} from "../validators/validateChainId.js"
 import {validateAddress} from "../validators/validateAddress.js"
 import {queryAndCache} from "../db/utils.js"
-import {getTimestampForPast24Hours} from "../utils/timeUtils.js";
+import {getTimestampForPast24Hours} from "../utils/timeUtils.js"
 
 export const QUERY_TTL = 30
 

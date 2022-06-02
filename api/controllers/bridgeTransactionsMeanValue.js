@@ -1,8 +1,8 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import {queryAndCache} from "../db/utils.js"
 import {ethers, BigNumber, FixedNumber} from "ethers"
-import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js";
-import {getAllTimeTotalForChains} from "../utils/analyticsAPIUtils.js";
+import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
+import {getAllTimeTotalForChains} from "../utils/analyticsAPIUtils.js"
 
 export const CACHE_TTL = 3600
 
@@ -15,8 +15,8 @@ export async function query(args) {
     // if (!address) {
     //     let chainId = args.chainId ? args.chainId : 0
     //     let total = await getAllTimeTotalForChains(chainId)
-    //     let txnCount = await getAllTimeTotalForChains(chainId);
-    //     value = total;
+    //     let txnCount = await getAllTimeTotalForChains(chainId)
+    //     value = total
     // } else {
 
         // // Filter for user address

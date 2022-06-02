@@ -1,9 +1,9 @@
 import {queryAndCache} from "../db/utils.js"
-import {getAllTimeTotalForChains, getPastDayTotalForChains} from "../utils/analyticsAPIUtils.js";
-import {BRIDGE_TRANSACTIONS_COLLECTION} from "../db/index.js";
-import {FixedNumber} from "ethers";
-import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js";
-import {getTimestampForPast24Hours} from "../utils/timeUtils.js";
+import {getAllTimeTotalForChains, getPastDayTotalForChains} from "../utils/analyticsAPIUtils.js"
+import {BRIDGE_TRANSACTIONS_COLLECTION} from "../db/index.js"
+import {FixedNumber} from "ethers"
+import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
+import {getTimestampForPast24Hours} from "../utils/timeUtils.js"
 
 export const QUERY_TTL = 60
 

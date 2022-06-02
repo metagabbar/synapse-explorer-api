@@ -1,6 +1,6 @@
 import fetch from "node-fetch"
-import {FixedNumber} from "ethers";
-import {ChainId} from "@synapseprotocol/sdk";
+import {FixedNumber} from "ethers"
+import {ChainId} from "@synapseprotocol/sdk"
 
 /**
  * Converts chain id to synapse analytics chain id

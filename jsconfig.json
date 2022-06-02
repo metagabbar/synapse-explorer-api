@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "baseUrl": "src",
+      "paths": {
+        "@controllers":          ["./controllers"],
+        "@controllers/*":        ["./controllers/*"],
+        "@controllers/**/*":     ["./controllers/**/*"],
+        "@db":       ["./db"],
+        "@db/*":     ["./db/*"],
+        "@db/**/*":  ["./db/**/*"],
+      }
+    },
+    "exclude": [
+      "node_modules",
+      "**/node_modules/*"
+    ]
+  }
