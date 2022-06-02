@@ -1,17 +1,28 @@
-import {bignumber, divide} from "mathjs"
+import {FixedNumber} from "ethers";
 import {
     getDivisorForDecimals,
     getDecimalsForChainFromTokenAddress,
     getTokenSymbolFromAddress
 } from "../utils/sdkUtils.js"
 
+/**
+ * Returns formatted value for a token on a chain
+ *
+ * @param tokenAddress
+ * @param chainId
+ * @param value
+ * @return {string|null}
+ */
+// TODO: migrate to one in currency utils
 function getFormattedValue(tokenAddress, chainId, value) {
     try {
         if (!value) {
             return null
         }
+        let bigValue = FixedNumber.from(value.toString())
         let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress)
-        let res = divide(bignumber(value), bignumber(getDivisorForDecimals(decimals).toString()))
+        let bigDivisor = FixedNumber.from(getDivisorForDecimals(decimals).toString())
+        let res = bigValue.divUnsafe(bigDivisor)
         return res.toString()
     } catch (err) {
         console.error(err)
