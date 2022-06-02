@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "run": "node api/index.js",
-    "start": "nodemon api/index.js"
+    "run": "node index.js",
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
