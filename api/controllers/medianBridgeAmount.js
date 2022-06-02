@@ -49,7 +49,7 @@ export async function query(args) {
     return {"value": usdMedianValue}
 }
 
-export async function bridgeTransactionsMedianValue(_, args) {
+export async function medianBridgeAmount(_, args) {
     let queryName = 'median'
     let res = await queryAndCache(queryName, args, query, CACHE_TTL)
     return res

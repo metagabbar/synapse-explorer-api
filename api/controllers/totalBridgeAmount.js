@@ -63,8 +63,8 @@ async function query(args) {
     return {"value": sum.toString()}
 }
 
-export async function bridgeTransactionsTotalValue(_, args) {
-    let queryName = 'bridgeTransactionsTotalValue'
+export async function totalBridgeAmount(_, args) {
+    let queryName = 'totalBridgeAmount'
     let res = await queryAndCache(queryName, args, query, QUERY_TTL)
     return res
 }

@@ -74,46 +74,48 @@ export const schema = gql`
     ): [BridgeTransaction]
 
     """
-    Returns count of transactions bridged for a given duration.
-    Specifying no chainId returns the result across all transactions.
+    Returns count of transactions bridged for a given duration, chain and address.
+    Specifying no duration defaults to ALL_TIME
     """
-    bridgeTransactionsCount(
+    countBridgeTransactions(
       duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
     ): ScalarResult
 
     """
-    Returns the total value of bridged transactions in USD by chain.
-    Specifying no parameter returns the result across all transactions.
+    Returns the TOTAL value of bridged transactions in USD for a given duration, chain and address.
+    Specifying no duration defaults to ALL_TIME
     """
-    bridgeTransactionsTotalValue(
+    totalBridgeAmount(
       duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
     ): ScalarResult
 
     """
-    Returns the total value of bridged transactions for a chain id and given duration.
-    Specifying no parameter returns the result across all transactions.
+    Returns the MEDIAN value of bridged transactions in USD for a given duration, chain and address.
+    Specifying no duration defaults to ALL_TIME
     """
-    bridgeTransactionsMedianValue(
+    medianBridgeAmount(
+      duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
     ): ScalarResult
 
     """
-    Returns mean value of transactions bridged for a given duration.
-    Specifying no parameter returns the result across all transactions.
+    Returns the MEAN value of bridged transactions in USD for a given duration, chain and address.
+    Specifying no duration defaults to ALL_TIME
     """
-    bridgeTransactionsMeanValue(
+    meanBridgeAmount(
+      duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
     ): ScalarResult
 
     """
-    Returns counts of chain transactions by source and time. 
-    Specifying no parameters defaults to origin and 24 hours.
+    Returns the COUNT of bridged transactions for a given duration, chain and address.
+    Specifying no duration defaults to ALL_TIME
     """
     countByChainId(
       address: String,
