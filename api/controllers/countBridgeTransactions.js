@@ -44,7 +44,7 @@ async function query(args) {
     return {"value" : res}
 }
 
-export async function bridgeTransactionsCount(_, args) {
+export async function countBridgeTransactions(_, args) {
 
     if (args.chainId) {
         validateChainId(args.chainId)
@@ -54,7 +54,7 @@ export async function bridgeTransactionsCount(_, args) {
         args.address = ethers.utils.getAddress(args.address)
     }
 
-    let queryName = 'bridgeTransactionsCount'
+    let queryName = 'countBridgeTransactions'
     let res = await queryAndCache(queryName, args, query, QUERY_TTL)
 
     return res

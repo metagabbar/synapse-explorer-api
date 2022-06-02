@@ -1,38 +1,38 @@
 // Run workers to cache aggregate query results
 import {queryAndCache} from "../api/db/utils.js"
-import * as bridgeTransactionsMedianValue from "../api/controllers/bridgeTransactionsMedianValue.js"
-import * as bridgeTransactionsMeanValue from "../api/controllers/bridgeTransactionsMeanValue.js"
-import {CACHE_TTL} from "../api/controllers/bridgeTransactionsMedianValue.js"
+import * as medianBridgeAmount from "../api/controllers/medianBridgeAmount.js"
+import * as meanBridgeAmount from "../api/controllers/meanBridgeAmount.js"
+import {CACHE_TTL} from "../api/controllers/medianBridgeAmount.js"
 
 async function computebridgeTransactionMedianValue() {
     // TODO for all chains
     await queryAndCache(
-        'bridgeTransactionsMedianValue',
+        'medianBridgeAmount',
         {},
-        bridgeTransactionsMedianValue.query,
-        bridgeTransactionsMedianValue.CACHE_TTL
+        medianBridgeAmount.query,
+        medianBridgeAmount.CACHE_TTL
     )
 }
 
 async function computeMean() {
     // TODO for all chains
     await queryAndCache(
-        'bridgeTransactionsMeanValue',
+        'meanBridgeAmount',
         {},
-        bridgeTransactionsMeanValue.query,
-        bridgeTransactionsMeanValue.CACHE_TTL
+        meanBridgeAmount.query,
+        meanBridgeAmount.CACHE_TTL
     )
 }
 
 async function computeMean() {
     // TODO for all chains
     await queryAndCache(
-        'bridgeTransactionsMeanValue',
+        'meanBridgeAmount',
         {},
-        bridgeTransactionsMeanValue.query,
-        bridgeTransactionsMeanValue.CACHE_TTL
+        meanBridgeAmount.query,
+        meanBridgeAmount.CACHE_TTL
     )
 }
 
-setInterval(computeMedian, bridgeTransactionsMedianValue.CACHE_TTL/2)
-setInterval(computeMean, bridgeTransactionsMeanValue.CACHE_TTL/2)
+setInterval(computeMedian, medianBridgeAmount.CACHE_TTL/2)
+setInterval(computeMean, meanBridgeAmount.CACHE_TTL/2)
