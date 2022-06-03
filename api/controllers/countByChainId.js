@@ -1,7 +1,7 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from '../db/index.js'
 import { queryAndCache } from '../db/utils.js'
 
-async function query({ address, direction, hours = 24 }) {
+async function query({ chainId, address, direction, hours = 24 }) {
   let date = new Date(Date.now() - hours * 60 * 60 * 1000)
   let unixTimestamp = parseInt((date.getTime() / 1000).toFixed(0))
   let whereChainId
@@ -26,8 +26,14 @@ async function query({ address, direction, hours = 24 }) {
   }
 
   if (address) {
-    matcher[$and].push({
+    matcher['$match']['$and'].push({
       fromAddress: { $eq: address },
+    })
+  }
+
+  if (chainId) {
+    matcher['$match']['$and'].push({
+      fromChainId: { $eq: chainId },
     })
   }
 

@@ -1,36 +1,43 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from '../db/index.js'
 import { queryAndCache } from '../db/utils.js'
 
-async function query({ address, direction, hours = 24 }) {
+async function query({ chainId, address, direction, hours = 24 }) {
   let date = new Date(Date.now() - hours * 60 * 60 * 1000)
   let unixTimestamp = parseInt((date.getTime() / 1000).toFixed(0))
   let tokenAddress
-  let chainId
-  let matcher
+  let whereChainId
 
   if (direction === 'OUT') {
     tokenAddress = '$sentTokenAddress'
-    chainId = '$fromChainId'
+    whereChainId = '$fromChainId'
   } else {
     tokenAddress = '$receivedTokenAddress'
-    chainId = '$toChainId'
+    whereChainId = '$toChainId'
+  }
+
+  let matcher = {
+    $match: {
+      $and: [
+        {
+          receivedTime: { $gte: unixTimestamp },
+        },
+        {
+          fromChainId: { $exists: true },
+        },
+      ],
+    },
   }
 
   if (address) {
-    matcher = {
-      $match: {
-        $and: [
-          {
-            receivedTime: { $gte: unixTimestamp },
-          },
-          {
-            fromAddress: { $eq: address },
-          },
-        ],
-      },
-    }
-  } else {
-    matcher = { $match: { receivedTime: { $gte: unixTimestamp } } }
+    matcher['$match']['$and'].push({
+      fromAddress: { $eq: address },
+    })
+  }
+
+  if (chainId) {
+    matcher['$match']['$and'].push({
+      fromChainId: { $eq: chainId },
+    })
   }
 
   let aggregator = await BRIDGE_TRANSACTIONS_COLLECTION.aggregate([
@@ -39,7 +46,7 @@ async function query({ address, direction, hours = 24 }) {
       $group: {
         _id: {
           tokenAddress: tokenAddress,
-          chainId: chainId,
+          chainId: whereChainId,
         },
         count: {
           $sum: 1,
