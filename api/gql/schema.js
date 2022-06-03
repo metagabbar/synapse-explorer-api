@@ -118,6 +118,7 @@ export const schema = gql`
     Specifying no duration defaults to ALL_TIME
     """
     countByChainId(
+      chainId: Int,
       address: String,
       direction: Direction=IN,
       hours: Int=24,
@@ -128,6 +129,7 @@ export const schema = gql`
     Specifying no parameters defaults to origin and 24 hours.
     """
     countByTokenAddress(
+      chainId: Int,
       address: String,
       direction: Direction=IN,
       hours: Int=24,
