@@ -5,7 +5,6 @@ async function query({ address, direction, hours = 24 }) {
   let date = new Date(Date.now() - hours * 60 * 60 * 1000)
   let unixTimestamp = parseInt((date.getTime() / 1000).toFixed(0))
   let whereChainId
-  let matcher
 
   if (direction === 'OUT') {
     whereChainId = '$fromChainId'
@@ -13,21 +12,23 @@ async function query({ address, direction, hours = 24 }) {
     whereChainId = '$toChainId'
   }
 
+  let matcher = {
+    $match: {
+      $and: [
+        {
+          receivedTime: { $gte: unixTimestamp },
+        },
+        {
+          fromChainId: { $exists: true },
+        },
+      ],
+    },
+  }
+
   if (address) {
-    matcher = {
-      $match: {
-        $and: [
-          {
-            receivedTime: { $gte: unixTimestamp },
-          },
-          {
-            fromAddress: { $eq: address },
-          },
-        ],
-      },
-    }
-  } else {
-    matcher = { $match: { receivedTime: { $gte: unixTimestamp } } }
+    matcher[$and].push({
+      fromAddress: { $eq: address },
+    })
   }
 
   let aggregator = await BRIDGE_TRANSACTIONS_COLLECTION.aggregate([
