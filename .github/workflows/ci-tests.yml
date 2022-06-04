@@ -1,0 +1,27 @@
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: setup node env
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: npm install
+        run: npm install
+
+      - name: npm test
+        run: npm test
+        env:
+          NODE_ENV: test
+          TEST_MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
+          TEST_REDIS_URI: ${{ secrets.TEST_REDIS_URI }}

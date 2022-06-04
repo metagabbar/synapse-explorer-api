@@ -4,6 +4,7 @@ import {ApolloServerPluginLandingPageGraphQLPlayground} from "apollo-server-core
 
 import {schema} from "./api/gql/schema.js"
 import "./api/db/index.js"
+
 import {bridgeTransactions} from "./api/controllers/bridgeTransactions.js"
 import {latestBridgeTransactions} from "./api/controllers/latestBridgeTransactions.js"
 import {countBridgeTransactions} from "./api/controllers/countBridgeTransactions.js"
@@ -14,26 +15,35 @@ import {countByChainId} from './api/controllers/countByChainId.js'
 import {countByTokenAddress} from './api/controllers/countByTokenAddress.js'
 import {addressRanking} from './api/controllers/addressRanking.js'
 
-const server = new ApolloServer({
-    typeDefs: schema,
-    resolvers: {
-        Query: {
-            bridgeTransactions,
-            latestBridgeTransactions,
-            countBridgeTransactions,
-            medianBridgeAmount,
-            meanBridgeAmount,
-            totalBridgeAmount,
-            countByChainId,
-            countByTokenAddress,
-            addressRanking,
+// This function will create a new server Apollo Server instance
+export const createServer = async (options = { port: 4000 }) => {
+    const server = new ApolloServer({
+        typeDefs: schema,
+        resolvers: {
+            Query: {
+                bridgeTransactions,
+                latestBridgeTransactions,
+                countBridgeTransactions,
+                medianBridgeAmount,
+                meanBridgeAmount,
+                totalBridgeAmount,
+                countByChainId,
+                countByTokenAddress,
+                addressRanking,
+            },
         },
-    },
-    plugins: [
-        ApolloServerPluginLandingPageGraphQLPlayground({}),
-    ]
-})
+        plugins: [
+            ApolloServerPluginLandingPageGraphQLPlayground({}),
+        ]
+    })
 
-server.listen().then(({ url }) => {
+    const serverInfo = await server.listen(options);
     console.log('Running a GraphQL API server at localhost:4000/graphql')
-})
+
+    // serverInfo is an object containing the server instance and the url the server is listening on
+    return serverInfo;
+};
+
+if (process.env.NODE_ENV !== "test") {
+    await createServer()
+}

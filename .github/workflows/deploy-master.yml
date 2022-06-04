@@ -22,4 +22,5 @@ jobs:
             git reset --hard HEAD
             git pull origin master
             npm i
+            npm test
             pm2 restart index.js

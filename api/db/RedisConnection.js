@@ -6,7 +6,13 @@ export class RedisConnection {
 
     /** Instantiation/creation of mongodb client */
     static async createClient() {
-        return RedisConnection._client = new Redis(process.env.REDIS_URI)
+        let REDIS_URI = process.env.REDIS_URI
+        if (process.env.NODE_ENV === "test") {
+            REDIS_URI = process.env.TEST_REDIS_URI
+            REDIS_URI = REDIS_URI.replace(/['"]+/g, '')
+        }
+
+        return RedisConnection._client = new Redis(REDIS_URI)
     }
     /** get the underlying mongo client db */
     static async getClient() {

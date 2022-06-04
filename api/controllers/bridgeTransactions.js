@@ -49,8 +49,6 @@ async function query(args) {
         'pending': false
     })
 
-    console.log("Skipping ", DB_PAGE_LIMIT * (page-1))
-
     return await BRIDGE_TRANSACTIONS_COLLECTION
         .find(filter)
         .sort({"sentTime": -1})
