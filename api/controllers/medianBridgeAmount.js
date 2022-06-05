@@ -1,6 +1,6 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import {queryAndCache} from "../db/utils.js"
-import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
+import {calculateUSDValueForTxnSent, getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
 
 export const CACHE_TTL = 3600
 
@@ -35,18 +35,12 @@ export async function query(args) {
         .toArray()
 
     let medianTxn = res[0]
-    let usdMedianValue = "3650" // approx fallback median
+    let defaultUSDMedianValue = "3650" // approx fallback median
 
-    // Convert to USD and return
-    if (medianTxn) {
-        let value = getFormattedValue(medianTxn.sentTokenAddress, medianTxn.fromChainId, medianTxn.sentValue) // Adjust for decimals
-        let usdPrice = await getUSDPriceFromAddressOnChain(medianTxn.fromChainId, medianTxn.sentTokenAddress) // Get trading price
-        if (usdPrice) {
-            usdMedianValue = value.mulUnsafe(usdPrice).toString()
-        }
-    }
+    let value = await calculateUSDValueForTxnSent(medianTxn)
+    value = value ? value : defaultUSDMedianValue
 
-    return {"value": usdMedianValue}
+    return {"value": value}
 }
 
 export async function medianBridgeAmount(_, args) {

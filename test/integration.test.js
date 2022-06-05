@@ -57,7 +57,7 @@ describe('integration tests', () => {
         let queryData = {
             query: `
             query {
-                meanBridgeAmount(duration:ALL_TIME, chainId:1) {
+                meanBridgeAmount(duration:ALL_TIME, chainId:56) {
                     value
                 }
             }

@@ -98,3 +98,19 @@ export async function getUSDPriceFromSymbol(tokenSymbol) {
         console.log(err)
     }
 }
+
+/**
+ * Takes in a value and bridgeTxn to calculate the USD price of that value wrt sent transaction
+ * @param bridgeTxn
+ * @return {Promise<string>}
+ */
+export async function calculateUSDValueForTxnSent(bridgeTxn) {
+    if (bridgeTxn) {
+        let value = getFormattedValue(bridgeTxn.sentTokenAddress, bridgeTxn.fromChainId, bridgeTxn.sentValue) // Adjust for decimals
+        let usdPrice = await getUSDPriceFromAddressOnChain(bridgeTxn.fromChainId, bridgeTxn.sentTokenAddress) // Get trading price
+        if (value && usdPrice) {
+            return value.mulUnsafe(usdPrice).toString()
+        }
+    }
+    return "0"
+}

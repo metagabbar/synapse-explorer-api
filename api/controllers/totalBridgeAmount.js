@@ -2,7 +2,7 @@ import {queryAndCache} from "../db/utils.js"
 import {getAllTimeTotalForChains, getPastDayTotalForChains} from "../utils/analyticsAPIUtils.js"
 import {BRIDGE_TRANSACTIONS_COLLECTION} from "../db/index.js"
 import {FixedNumber} from "ethers"
-import {getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
+import {calculateUSDValueForTxnSent, getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
 import {getTimestampForPast24Hours} from "../utils/timeUtils.js"
 
 export const QUERY_TTL = 60
@@ -51,11 +51,8 @@ async function query(args) {
         // Get amount for user
         let res = await BRIDGE_TRANSACTIONS_COLLECTION.find(filter)
         for await (const txn of res) {
-            let value = getFormattedValue(txn.sentTokenAddress, txn.fromChainId, txn.sentValue) // Adjust for decimals
-            let usdPrice = await getUSDPriceFromAddressOnChain(txn.fromChainId, txn.sentTokenAddress) // Get trading price
-            if (value && usdPrice) {
-                sum=sum.addUnsafe(value.mulUnsafe(usdPrice))
-            }
+            let value = await calculateUSDValueForTxnSent(txn)
+            sum=sum.addUnsafe(FixedNumber.from(value))
         }
 
     }
