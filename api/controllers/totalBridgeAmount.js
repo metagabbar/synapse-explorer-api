@@ -53,7 +53,7 @@ async function query(args) {
         for await (const txn of res) {
             let value = getFormattedValue(txn.sentTokenAddress, txn.fromChainId, txn.sentValue) // Adjust for decimals
             let usdPrice = await getUSDPriceFromAddressOnChain(txn.fromChainId, txn.sentTokenAddress) // Get trading price
-            if (usdPrice) {
+            if (value && usdPrice) {
                 sum=sum.addUnsafe(value.mulUnsafe(usdPrice))
             }
         }
