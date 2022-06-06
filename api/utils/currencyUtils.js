@@ -55,8 +55,7 @@ export function getFormattedValue(tokenAddress, chainId, sentValue, receivedValu
  */
 export async function getUSDPriceFromAddressOnChain(chainId, tokenAddress) {
     let tokenSymbol = getTokenSymbolFromAddress(chainId, tokenAddress)
-    let tokenSymbolIgnoreList = ["UST", "GMX"]
-    if (!tokenSymbol || tokenSymbolIgnoreList.includes(tokenSymbol)) {
+    if (!tokenSymbol) {
         return FixedNumber.from(0)
     }
     return await getUSDPriceFromSymbol(tokenSymbol)
@@ -82,6 +81,11 @@ export async function getUSDPriceFromSymbol(tokenSymbol) {
     if (!TOKEN_SYMBOLS.includes(tokenSymbol)) {
         console.log("No price found for ", tokenSymbol)
         return
+    }
+
+    let tokenSymbolIgnoreList = ["UST", "GMX"]
+    if (tokenSymbolIgnoreList.includes(tokenSymbol)) {
+        return FixedNumber.from("0")
     }
 
     // TODO: Move to redis!
