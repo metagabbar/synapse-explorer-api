@@ -1,6 +1,9 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from "../db/index.js"
 import {queryAndCache} from "../db/utils.js"
-import {calculateUSDValueForTxnSent, getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
+import {calculateUSDValueForTxnSent} from "../utils/currencyUtils.js"
+import {validateChainId} from "../validators/validateChainId.js";
+import {validateAddress} from "../validators/validateAddress.js";
+import {ethers} from "ethers";
 
 export const CACHE_TTL = 3600
 
@@ -44,6 +47,16 @@ export async function query(args) {
 }
 
 export async function medianBridgeAmount(_, args) {
+
+    // Validation
+    if (args.chainId) {
+        validateChainId(args.chainId)
+    }
+    if (args.address) {
+        validateAddress(args.address)
+        args.address = ethers.utils.getAddress(args.address)
+    }
+
     let queryName = 'median'
     let res = await queryAndCache(queryName, args, query, CACHE_TTL)
     return res

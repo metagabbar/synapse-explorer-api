@@ -1,9 +1,11 @@
 import {queryAndCache} from "../db/utils.js"
 import {getAllTimeTotalForChains, getPastDayTotalForChains} from "../utils/analyticsAPIUtils.js"
 import {BRIDGE_TRANSACTIONS_COLLECTION} from "../db/index.js"
-import {FixedNumber} from "ethers"
+import {ethers, FixedNumber} from "ethers"
 import {calculateUSDValueForTxnSent, getFormattedValue, getUSDPriceFromAddressOnChain} from "../utils/currencyUtils.js"
 import {getTimestampForPast24Hours} from "../utils/timeUtils.js"
+import {validateChainId} from "../validators/validateChainId.js";
+import {validateAddress} from "../validators/validateAddress.js";
 
 export const QUERY_TTL = 60
 
@@ -61,6 +63,16 @@ async function query(args) {
 }
 
 export async function totalBridgeAmount(_, args) {
+
+    // Validation
+    if (args.chainId) {
+        validateChainId(args.chainId)
+    }
+    if (args.address) {
+        validateAddress(args.address)
+        args.address = ethers.utils.getAddress(args.address)
+    }
+
     let queryName = 'totalBridgeAmount'
     let res = await queryAndCache(queryName, args, query, QUERY_TTL)
     return res
