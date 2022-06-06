@@ -55,7 +55,8 @@ export function getFormattedValue(tokenAddress, chainId, sentValue, receivedValu
  */
 export async function getUSDPriceFromAddressOnChain(chainId, tokenAddress) {
     let tokenSymbol = getTokenSymbolFromAddress(chainId, tokenAddress)
-    if (!tokenSymbol) {
+    let tokenSymbolIgnoreList = ["UST", "GMX"]
+    if (!tokenSymbol || tokenSymbolIgnoreList.includes(tokenSymbol)) {
         return FixedNumber.from(0)
     }
     return await getUSDPriceFromSymbol(tokenSymbol)
