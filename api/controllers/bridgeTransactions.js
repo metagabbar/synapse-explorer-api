@@ -7,7 +7,7 @@ import {ethers} from "ethers"
 import {queryAndCache} from "../db/utils.js"
 
 async function query(args) {
-    let { chainId, address, txnHash, kappa, page} = args
+    let { chainId, address, txnHash, kappa, page, includePending} = args
 
     let filter = {'$and': []}
 
@@ -45,9 +45,11 @@ async function query(args) {
     }
 
     // Only return completed transactions here
-    filter['$and'].push({
-        'pending': false
-    })
+    if (!includePending) {
+        filter['$and'].push({
+            'pending': false
+        })
+    }
 
     return await BRIDGE_TRANSACTIONS_COLLECTION
         .find(filter)
@@ -60,9 +62,10 @@ async function query(args) {
 export async function bridgeTransactions(_, args) {
 
     // Basic validation
-    if (Object.keys(args).length === 0) {
-        throw new GraphQLError('a minimum of 1 parameter is required to filter results')
+    if (!args.chainId && !args.address && !args.txnHash && !args.kappa) {
+        throw new GraphQLError('a minimum of 1 search parameter is required to filter results')
     }
+
     if (args.chainId) {
         validateChainId(args.chainId)
     }

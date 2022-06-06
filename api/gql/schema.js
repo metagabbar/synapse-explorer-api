@@ -56,14 +56,15 @@ export const schema = gql`
 
     """
     Returns bridged transactions filterable by chain, to/from address, to/from txn hash and keccak hash
-    Atleast 1 parameter is required to successfully execute this query
-    Not specifying a parameter like chainId, address or txnHash explicitly executes the search across all txns
+    Atleast 1 search parameter is required, which is one of chain id, address, txn hash or kappa
+    Not explicitly specifying a search parameter executes a search across all txns irrespective of the field's value
     """
     bridgeTransactions(
         chainId: Int,
         address: String,
         txnHash: String,
-        kappa: String
+        kappa: String,
+        includePending: Boolean=false,
         page: Int=1
     ): [BridgeTransaction]
 
