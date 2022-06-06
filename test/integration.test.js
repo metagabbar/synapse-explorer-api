@@ -35,6 +35,29 @@ describe('integration tests', () => {
         expect(responseBody[0].kappa).to.be.an('string');
     }).timeout(10000);
 
+    it('should return bridge transaction for specific kappa w formatted symbol', async () => {
+        let queryData = {
+            query: `
+            query {
+                bridgeTransactions(kappa: "0x8a0734313961001f5c090bb4b2aefd86494aa8cfa7ca78c648f6b57ac6745e59") {
+                    kappa
+                    fromInfo {
+                        tokenSymbol
+                    }
+                }
+            }
+            `,
+            variables: {},
+        }
+        const response = await request(url).post('/').send(queryData);
+        let responseBody = response.body.data.bridgeTransactions
+        expect(responseBody).to.be.an('array').that.is.not.empty;
+        expect(responseBody[0].kappa).to.be.an('string');
+        expect(responseBody[0].fromInfo.tokenSymbol).to.be.an('string');
+
+    }).timeout(10000);
+
+
     it('should return recent transactions', async () => {
         let queryData = {
             query: `

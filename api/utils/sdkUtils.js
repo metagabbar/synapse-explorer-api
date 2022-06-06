@@ -29,6 +29,25 @@ for (const chainId of _.values(ChainId)) {
 }
 
 /**
+ * Takes in a token symbol and returns the chain native symbol if wrapped, or else returns the input
+ * @param {Number} chainId
+ * @param {String} wSymbol
+ * @return {String}
+ */
+function getNativeSymbolForChainIfWrapped(chainId, wSymbol) {
+    let nSymbol = wSymbol
+    if (chainId === ChainId.ETH && wSymbol.toUpperCase() === "WETH") {
+        nSymbol = "ETH"
+    } else if ((chainId === ChainId.AVALANCHE || chainId === ChainId.DFK) && wSymbol.toUpperCase() === "WAVAX") {
+        nSymbol = "AVAX"
+    } else if (chainId === ChainId.MOONRIVER && wSymbol.toUpperCase() === "WMOVR") {
+        nSymbol = "MOVR"
+    }
+    return nSymbol
+}
+
+
+/**
  * Gets token symbol for contract address on chain
  * @param {String | Number} chainId
  * @param {String} address
@@ -38,7 +57,14 @@ export function getTokenSymbolFromAddress(chainId, address) {
     if (!chainId || !address) {
         return null
     }
-    return ADDRESS_SYMBOL_MAP[chainId.toString()][address?.toLowerCase()]
+    let symbol = ADDRESS_SYMBOL_MAP[chainId.toString()][address?.toLowerCase()]
+    try {
+        symbol = getNativeSymbolForChainIfWrapped(parseInt(chainId), symbol)
+    } catch (err) {
+        // Should never happen, but possibly due to parseInt
+        console.log(err);
+    }
+    return symbol
 }
 
 export function getDecimalsForChainFromTokenAddress(chainId, address) {

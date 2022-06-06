@@ -36,7 +36,7 @@ export function formatBridgeTransaction(args) {
         address: args.fromAddress?.trim() ?? args.fromAddress,
         txnHash: args.fromTxnHash ? args.fromTxnHash.trim() : args.fromTxnHash,
         tokenAddress: args.sentTokenAddress ? args.sentTokenAddress.trim() : args.sentTokenAddress,
-        tokenSymbol:  args.sentTokenSymbol ? args.sentTokenSymbol : getTokenSymbolFromAddress(args.fromChainId, args.sentTokenAddress),
+        tokenSymbol:  getTokenSymbolFromAddress(args.fromChainId, args.sentTokenAddress),
         time:         args.sentTime,
 
         value:        args.sentValue,
@@ -47,7 +47,7 @@ export function formatBridgeTransaction(args) {
         address: args.toAddress ? args.toAddress.trim() : args.toAddress,
         txnHash: args.toTxnHash ? args.toTxnHash.trim() : args.toTxnHash,
         tokenAddress: args.receivedTokenAddress ? args.receivedTokenAddress.trim(): args.receivedTokenAddress,
-        tokenSymbol:  args.receivedTokenSymbol ? args.receivedTokenSymbol : getTokenSymbolFromAddress(args.toChainId, args.receivedTokenAddress),
+        tokenSymbol:  getTokenSymbolFromAddress(args.toChainId, args.receivedTokenAddress),
         time:         args.receivedTime,
 
         value:        args.receivedValue,
