@@ -1,4 +1,4 @@
-import {GraphQLError} from "graphql"
+import {UserInputError} from "apollo-server"
 import { formatBridgeTransaction } from "../models/bridgeTransaction.js"
 import { BRIDGE_TRANSACTIONS_COLLECTION, DB_PAGE_LIMIT } from "../db/index.js"
 import {validateChainId} from "../validators/validateChainId.js"
@@ -63,7 +63,7 @@ export async function bridgeTransactions(_, args) {
 
     // Basic validation
     if (!args.chainId && !args.address && !args.txnHash && !args.kappa) {
-        throw new GraphQLError('a minimum of 1 search parameter is required to filter results')
+        throw new UserInputError('a minimum of 1 search parameter is required to filter results')
     }
 
     if (args.chainId) {
