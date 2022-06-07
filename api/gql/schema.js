@@ -25,6 +25,10 @@ export const schema = gql`
   type ScalarResult {
     value: String
   }
+  
+  type ValueResult {
+    USDValue: String
+  }
 
   type TransactionCountResult {
     chainId: Int
@@ -52,6 +56,13 @@ export const schema = gql`
     OUT
   }
   
+  enum StatisticType {
+    MEAN
+    MEDIAN
+    TOTAL
+    COUNT
+  }
+  
   type Query {
 
     """
@@ -77,6 +88,17 @@ export const schema = gql`
     ): [BridgeTransaction]
 
     """
+    Returns mean/median/total/count of transactions bridged for a given duration, chain and address.
+    Specifying no duration defaults to ALL_TIME, and no chain or address searches across all 
+    """
+    bridgeAmountStatistic(
+      type: StatisticType!,
+      duration: Duration=ALL_TIME,
+      chainId: Int,
+      address: String,
+    ): ValueResult
+
+    """
     Returns count of transactions bridged for a given duration, chain and address.
     Specifying no duration defaults to ALL_TIME
     """
@@ -84,7 +106,7 @@ export const schema = gql`
       duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
-    ): ScalarResult
+    ): ScalarResult @deprecated
 
     """
     Returns the TOTAL value of bridged transactions in USD for a given duration, chain and address.
@@ -94,7 +116,7 @@ export const schema = gql`
       duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
-    ): ScalarResult
+    ): ScalarResult @deprecated
 
     """
     Returns the MEDIAN value of bridged transactions in USD for a given duration, chain and address.
@@ -104,7 +126,7 @@ export const schema = gql`
       duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
-    ): ScalarResult
+    ): ScalarResult @deprecated
 
     """
     Returns the MEAN value of bridged transactions in USD for a given duration, chain and address.
@@ -114,7 +136,7 @@ export const schema = gql`
       duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
-    ): ScalarResult
+    ): ScalarResult @deprecated
 
     """
     Returns the COUNT of bridged transactions for a given duration, chain and address.

@@ -7,6 +7,7 @@ import "./api/db/index.js"
 
 import {bridgeTransactions} from "./api/controllers/bridgeTransactions.js"
 import {latestBridgeTransactions} from "./api/controllers/latestBridgeTransactions.js"
+import {bridgeAmountStatistic} from "./api/controllers/bridgeAmountStatistic.js";
 import {countBridgeTransactions} from "./api/controllers/countBridgeTransactions.js"
 import {medianBridgeAmount} from "./api/controllers/medianBridgeAmount.js"
 import {meanBridgeAmount} from "./api/controllers/meanBridgeAmount.js"
@@ -23,13 +24,16 @@ export const createServer = async (options = { port: 4000 }) => {
             Query: {
                 bridgeTransactions,
                 latestBridgeTransactions,
+                bridgeAmountStatistic,
+                countByChainId,
+                countByTokenAddress,
+                addressRanking,
+
+                // Deprecated
                 countBridgeTransactions,
                 medianBridgeAmount,
                 meanBridgeAmount,
                 totalBridgeAmount,
-                countByChainId,
-                countByTokenAddress,
-                addressRanking,
             },
         },
         plugins: [
