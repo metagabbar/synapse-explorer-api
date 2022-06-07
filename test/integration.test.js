@@ -76,68 +76,68 @@ describe('integration tests', () => {
     }).timeout(10000);
 
 
-    it('should return mean for all transactions on a chain', async () => {
+    it('should return mean for transactions on a chain', async () => {
         let queryData = {
             query: `
-            query {
-                meanBridgeAmount(duration:ALL_TIME, chainId:56) {
-                    value
+                query {
+                  bridgeAmountStatistic(type:MEAN, chainId:1) {
+                    USDValue
+                  }
                 }
-            }
             `,
             variables: {},
         }
         const response = await request(url).post('/').send(queryData);
-        let responseBody = response.body.data.meanBridgeAmount
-        expect(parseFloat(responseBody.value)).to.be.an("number")
+        let responseBody = response.body.data.bridgeAmountStatistic
+        expect(parseFloat(responseBody.USDValue)).to.be.an("number")
     }).timeout(10000);
 
     it('should return median for all transactions on a chain', async () => {
         let queryData = {
             query: `
-            query {
-                medianBridgeAmount(duration:ALL_TIME, chainId:56) {
-                    value
+                query {
+                  bridgeAmountStatistic(type:MEDIAN, chainId:56) {
+                    USDValue
+                  }
                 }
-            }
             `,
             variables: {},
         }
         const response = await request(url).post('/').send(queryData);
-        let responseBody = response.body.data.medianBridgeAmount
-        expect(parseFloat(responseBody.value)).to.be.an("number")
+        let responseBody = response.body.data.bridgeAmountStatistic
+        expect(parseFloat(responseBody.USDValue)).to.be.an("number")
     }).timeout(10000);
 
     it('should return total for all transactions across all chains', async () => {
         let queryData = {
             query: `
-            query {
-                totalBridgeAmount(duration:ALL_TIME, chainId:1) {
-                    value
+                query {
+                  bridgeAmountStatistic(type:TOTAL, chainId:1) {
+                    USDValue
+                  }
                 }
-            }
             `,
             variables: {},
         }
         const response = await request(url).post('/').send(queryData);
-        let responseBody = response.body.data.totalBridgeAmount
-        expect(parseFloat(responseBody.value)).to.be.an("number")
+        let responseBody = response.body.data.bridgeAmountStatistic
+        expect(parseFloat(responseBody.USDValue)).to.be.an("number")
     }).timeout(10000);
 
     it('should return count for all transactions across all chains', async () => {
         let queryData = {
             query: `
-            query {
-                countBridgeTransactions {
-                    value
+                query {
+                  bridgeAmountStatistic(type:COUNT) {
+                    USDValue
+                  }
                 }
-            }
             `,
             variables: {},
         }
         const response = await request(url).post('/').send(queryData);
-        let responseBody = response.body.data.countBridgeTransactions
-        expect(parseFloat(responseBody.value)).to.be.an("number")
+        let responseBody = response.body.data.bridgeAmountStatistic
+        expect(parseFloat(responseBody.USDValue)).to.be.an("number")
     }).timeout(10000);
 
     it('should return count by token address', async () => {

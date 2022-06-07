@@ -1,5 +1,5 @@
-import {totalBridgeAmount} from "../../controllers/totalBridgeAmount.js";
-import {countBridgeTransactions} from "../../controllers/countBridgeTransactions.js";
+import {totalQuery} from "./totalQuery.js";
+import {countQuery} from "./countQuery.js";
 import {FixedNumber} from "ethers";
 
 /***
@@ -8,13 +8,13 @@ import {FixedNumber} from "ethers";
  * @return {Promise<{USDValue: string}>}
  */
 export async function meanQuery(args) {
-    let totalVal = await totalBridgeAmount(null, args)
-    let cntVal = await countBridgeTransactions(null, args)
+    let totalVal = await totalQuery(args)
+    let cntVal = await countQuery(args)
 
     // Avoid div by 0
     let mean = "0"
-    if (totalVal.value && cntVal?.value.toString() !== "0") {
-        mean = FixedNumber.from(totalVal.value.toString()).divUnsafe(FixedNumber.from(cntVal.value.toString()))
+    if (totalVal.USDValue && cntVal?.USDValue.toString() !== "0") {
+        mean = FixedNumber.from(totalVal.USDValue.toString()).divUnsafe(FixedNumber.from(cntVal.USDValue.toString()))
     }
 
     return {"USDValue": mean.toString()}
