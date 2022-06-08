@@ -8,10 +8,19 @@ import {bridgeAmountStatistic} from "../api/controllers/bridgeAmountStatistic.js
 export async function cacheLatestBridgeTransactions() {
     let startTime = getCurrentTimestamp();
     console.log(`Started caching latestBridgeTransactions at ${startTime}`)
+    let resList = []
     await latestBridgeTransactions(null, {includePending: true, page: 1}).then(async (res) => {
-        for (let txn of res) {
-            await bridgeTransactions(null, {txnHash: txn.fromInfo.txnHash, includePending: false, page: 1})
-        }
+        await Promise.all(
+            res.map(async txn => {
+                await bridgeTransactions(
+                    null,
+                    {txnHash: txn.fromInfo.txnHash, includePending: false, page: 1}
+                ).then(res => {
+                    resList.push(res)
+                })
+            })
+        )
+        // console.log(resList)
     })
     let endTime = getCurrentTimestamp()
     console.log(`Finished caching latestBridgeTransactions in ${endTime - startTime} seconds at ${endTime}`)
