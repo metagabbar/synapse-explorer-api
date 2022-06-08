@@ -1,5 +1,5 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION } from '../db/index.js'
-import { queryAndCache } from '../db/utils.js'
+import { queryAndCache } from '../db/queryAndCache.js'
 
 async function query({ chainId, address, direction, hours = 24 }) {
   let date = new Date(Date.now() - hours * 60 * 60 * 1000)

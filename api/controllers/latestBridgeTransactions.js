@@ -1,6 +1,6 @@
 import { BRIDGE_TRANSACTIONS_COLLECTION, DB_PAGE_LIMIT } from "../db/index.js"
 import { formatBridgeTransaction } from "../models/bridgeTransaction.js"
-import {queryAndCache} from "../db/utils.js"
+import {queryAndCache} from "../db/queryAndCache.js"
 
 async function query(args) {
     let {includePending, page} = args

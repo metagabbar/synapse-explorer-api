@@ -1,4 +1,4 @@
-import {queryAndCache} from "../db/utils.js"
+import {queryAndCache} from "../db/queryAndCache.js"
 import {ethers} from "ethers";
 import {validateChainId} from "../validators/validateChainId.js";
 import {validateAddress} from "../validators/validateAddress.js";

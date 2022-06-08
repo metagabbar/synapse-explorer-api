@@ -4,7 +4,7 @@ import { BRIDGE_TRANSACTIONS_COLLECTION, DB_PAGE_LIMIT } from "../db/index.js"
 import {validateChainId} from "../validators/validateChainId.js"
 import {validateAddress} from "../validators/validateAddress.js"
 import {ethers} from "ethers"
-import {queryAndCache} from "../db/utils.js"
+import {queryAndCache} from "../db/queryAndCache.js"
 
 async function query(args) {
     let { chainId, address, txnHash, kappa, page, includePending} = args

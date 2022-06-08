@@ -22,7 +22,7 @@ export async function queryAndCache(queryName, args, queryCallback, expireInSeco
         args
     )
 
-    if (!cachedRes) {
+    if (!cachedRes || args.bypassCache) {
         // Get response from DB and cache it
         res = await queryCallback(args)
         await RedisConnection.setForQuery(
