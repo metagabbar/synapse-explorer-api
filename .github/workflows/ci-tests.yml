@@ -4,9 +4,8 @@ on:
       - '*'
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
-    environment: test
     steps:
       - name: checkout code
         uses: actions/checkout@v2
@@ -23,5 +22,5 @@ jobs:
         run: npm test
         env:
           NODE_ENV: test
-          TEST_MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
-          TEST_REDIS_URI: ${{ secrets.TEST_REDIS_URI }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          REDIS_URI: ${{ secrets.REDIS_URI }}

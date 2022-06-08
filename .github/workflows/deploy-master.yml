@@ -6,11 +6,28 @@ on:
       - master
 
 jobs:
-  build:
-    name: Deploy
+  cicd:
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: setup node env
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: npm install
+        run: npm install
+
+      - name: npm test
+        run: npm test
+        env:
+          NODE_ENV: test
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          REDIS_URI: ${{ secrets.REDIS_URI }}
+
+      - name: deploy on machine via ssh
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}

@@ -38,6 +38,4 @@ export const createServer = async (options = { port: 4000 }) => {
     return serverInfo;
 };
 
-if (process.env.NODE_ENV !== "test") {
-    await createServer()
-}
+await createServer()
