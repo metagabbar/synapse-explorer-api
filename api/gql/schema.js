@@ -99,46 +99,6 @@ export const schema = gql`
     ): ValueResult
 
     """
-    Returns count of transactions bridged for a given duration, chain and address.
-    Specifying no duration defaults to ALL_TIME
-    """
-    countBridgeTransactions(
-      duration: Duration=ALL_TIME,
-      chainId: Int,
-      address: String,
-    ): ScalarResult @deprecated
-
-    """
-    Returns the TOTAL value of bridged transactions in USD for a given duration, chain and address.
-    Specifying no duration defaults to ALL_TIME
-    """
-    totalBridgeAmount(
-      duration: Duration=ALL_TIME,
-      chainId: Int,
-      address: String,
-    ): ScalarResult @deprecated
-
-    """
-    Returns the MEDIAN value of bridged transactions in USD for a given duration, chain and address.
-    Specifying no duration defaults to ALL_TIME
-    """
-    medianBridgeAmount(
-      duration: Duration=ALL_TIME,
-      chainId: Int,
-      address: String,
-    ): ScalarResult @deprecated
-
-    """
-    Returns the MEAN value of bridged transactions in USD for a given duration, chain and address.
-    Specifying no duration defaults to ALL_TIME
-    """
-    meanBridgeAmount(
-      duration: Duration=ALL_TIME,
-      chainId: Int,
-      address: String,
-    ): ScalarResult @deprecated
-
-    """
     Returns the COUNT of bridged transactions for a given duration, chain and address.
     Specifying no duration defaults to ALL_TIME
     """
