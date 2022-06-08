@@ -9,7 +9,8 @@ export class MongoConnection {
     MONGO_URI = MONGO_URI.replace(/['"]+/g, '')
 
     return MongoConnection._client = await MongoClient.connect(
-        MONGO_URI
+        MONGO_URI,
+        {maxPoolSize: 64}
     )
   }
   /** get the underlying mongo client db */

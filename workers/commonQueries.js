@@ -1,0 +1,73 @@
+import {getCurrentTimestamp} from "../api/utils/timeUtils.js";
+
+import {countByTokenAddress} from "../api/controllers/countByTokenAddress.js";
+import {countByChainId} from "../api/controllers/countByChainId.js";
+import {bridgeAmountStatistic} from "../api/controllers/bridgeAmountStatistic.js";
+import {bridgeTransactions} from "../api/controllers/bridgeTransactions.js";
+
+
+export async function cacheBridgeTransactions(chainId) {
+    let startTime = getCurrentTimestamp();
+    console.log(`Started caching cacheBridgeTransactions for chain ${chainId} at ${startTime}`)
+    let args = {bypassCache: true, includePending: true, page: 1, chainId: chainId}
+
+    let resList = []
+    await bridgeTransactions(null, args).then(async (res) => {
+        await Promise.all(
+            res.map(async txn => {
+                await bridgeTransactions(
+                    null,
+                    {bypassCache: true, txnHash: txn.fromInfo.txnHash, includePending: false, page: 1}
+                ).then(res => {
+                    resList.push(res)
+                })
+            })
+        )
+        // console.log(resList)
+    })
+    let endTime = getCurrentTimestamp()
+    console.log(`Finished caching cacheBridgeTransactions for chain ${chainId} in ${endTime - startTime} seconds at ${endTime}`)
+}
+
+export async function cacheCountByTokenId(chainId = null) {
+    let args = {bypassCache: true, direction: "OUT", hours: 24}
+    if (chainId) {
+        args["chainId"] = chainId
+    }
+
+    let startTime = getCurrentTimestamp();
+    console.log(`Started caching cacheCountByTokenId-${chainId ? chainId : ""} at ${startTime}`)
+    await countByChainId(null, args)
+    let endTime = getCurrentTimestamp()
+    console.log(`Finished caching cacheCountByTokenId-${chainId ? chainId : ""} in ${endTime - startTime} seconds at ${endTime}`)
+}
+
+export async function cacheCountByTokenAddress(chainId = null) {
+    let args = {bypassCache: true, direction: "OUT", hours: 24}
+    if (chainId) {
+        args["chainId"] = chainId
+    }
+
+    let startTime = getCurrentTimestamp();
+    console.log(`Started caching cacheCountByTokenAddress-${chainId ? chainId : ""} at ${startTime}`)
+    await countByTokenAddress(null, args)
+    let endTime = getCurrentTimestamp()
+    console.log(`Finished caching cacheCountByTokenAddress-${chainId ? chainId : ""} in ${endTime - startTime} seconds at ${endTime}`)
+}
+
+export async function cacheTotalAndCountStatistic(chainId = null) {
+    let countArgs = {bypassCache: true, type: "COUNT", duration: "ALL_TIME"}
+    let totalArgs = {bypassCache: true, type: "TOTAL", duration: "ALL_TIME"}
+
+    if (chainId) {
+        countArgs["chainId"] = chainId
+        totalArgs["chainId"] = chainId
+    }
+
+    let startTime = getCurrentTimestamp();
+    console.log(`Started caching front page statistic-${chainId ? chainId : ""} at ${startTime}`)
+    await bridgeAmountStatistic(null, countArgs)
+    await bridgeAmountStatistic(null, totalArgs)
+    let endTime = getCurrentTimestamp()
+    console.log(`Finished caching front page statistic-${chainId ? chainId : ""} in ${endTime - startTime} seconds at ${endTime}`)
+}
