@@ -23,6 +23,9 @@ export async function queryAndCache(queryName, args, queryCallback, expireInSeco
     )
 
     if (!cachedRes || args.bypassCache) {
+        // If you don't delete it, redis caches for wrong args!
+        delete args['bypassCache']
+
         // Get response from DB and cache it
         res = await queryCallback(args)
         await RedisConnection.setForQuery(
