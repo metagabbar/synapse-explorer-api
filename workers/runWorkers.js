@@ -17,7 +17,7 @@ async function cacheAllChainData() {
     }
     await Promise.all(allChainData)
 }
-setInterval(cacheAllChainData, 40 * 1000)
+// setInterval(cacheAllChainData, 40 * 1000)
 
 // Caching data for front page
 setInterval(cacheLatestBridgeTransactions, 20 * 1000)
