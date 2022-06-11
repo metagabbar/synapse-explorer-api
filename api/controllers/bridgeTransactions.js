@@ -6,6 +6,9 @@ import {validateAddress} from "../validators/validateAddress.js"
 import {ethers} from "ethers"
 import {queryAndCache} from "../db/queryAndCache.js"
 
+const QUERY_TTL_MINUTE = 60
+const QUERY_TTL_DAY = 60 * 60 * 24
+
 async function query(args) {
     let { chainId, address, txnHash, kappa, page, includePending} = args
 
@@ -66,16 +69,21 @@ export async function bridgeTransactions(_, args) {
         throw new UserInputError('a minimum of 1 search parameter is required to filter results')
     }
 
+    // If chain is not passed, txn result will stay static and can be cached for longer
+    let cacheTTL = QUERY_TTL_DAY
+
     if (args.chainId) {
         validateChainId(args.chainId)
+        cacheTTL = QUERY_TTL_MINUTE
     }
+
     if (args.address) {
         validateAddress(args.address)
         args.address = ethers.utils.getAddress(args.address)
     }
 
     let queryName = 'bridgeTransactions'
-    let res = await queryAndCache(queryName, args, query)
+    let res = await queryAndCache(queryName, args, query, cacheTTL)
 
     return res.map((txn) => {
         return formatBridgeTransaction(txn)

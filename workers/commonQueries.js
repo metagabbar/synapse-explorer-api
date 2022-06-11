@@ -11,19 +11,16 @@ export async function cacheBridgeTransactions(chainId) {
     console.log(`Started caching cacheBridgeTransactions for chain ${chainId} at ${startTime}`)
     let args = {bypassCache: true, includePending: true, page: 1, chainId: chainId}
 
-    let resList = []
     await bridgeTransactions(null, args).then(async (res) => {
-        await Promise.all(
-            res.map(async txn => {
-                await bridgeTransactions(
-                    null,
-                    {bypassCache: true, txnHash: txn.fromInfo.txnHash, includePending: false, page: 1}
-                ).then(res => {
-                    resList.push(res)
-                })
-            })
-        )
-        // console.log(resList)
+        // Also cache top 3 txns from the result
+        // await Promise.all(
+        //     res.slice(3).map(async txn => {
+        //         await bridgeTransactions(
+        //             null,
+        //             {bypassCache: true, txnHash: txn.fromInfo.txnHash, includePending: false, page: 1}
+        //         )
+        //     })
+        // )
     })
     let endTime = getCurrentTimestamp()
     console.log(`Finished caching cacheBridgeTransactions for chain ${chainId} in ${endTime - startTime} seconds at ${endTime}`)
@@ -64,10 +61,14 @@ export async function cacheTotalAndCountStatistic(chainId = null) {
         totalArgs["chainId"] = chainId
     }
 
-    let startTime = getCurrentTimestamp();
-    console.log(`Started caching front page statistic-${chainId ? chainId : ""} at ${startTime}`)
-    await bridgeAmountStatistic(null, countArgs)
-    await bridgeAmountStatistic(null, totalArgs)
-    let endTime = getCurrentTimestamp()
-    console.log(`Finished caching front page statistic-${chainId ? chainId : ""} in ${endTime - startTime} seconds at ${endTime}`)
+    try {
+        let startTime = getCurrentTimestamp();
+        console.log(`Started caching front page statistic-${chainId ? chainId : ""} at ${startTime}`)
+        await bridgeAmountStatistic(null, countArgs)
+        await bridgeAmountStatistic(null, totalArgs)
+        let endTime = getCurrentTimestamp()
+        console.log(`Finished caching front page statistic-${chainId ? chainId : ""} in ${endTime - startTime} seconds at ${endTime}`)
+    } catch (err) {
+        console.error(`Error in cacheTotalAndCountStatistic - ${err}`)
+    }
 }
