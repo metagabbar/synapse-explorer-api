@@ -20,6 +20,11 @@ export async function bridgeAmountStatistic(_, args) {
         args.address = ethers.utils.getAddress(args.address)
     }
 
+    if(args.tokenAddress) {
+        validateAddress(args.tokenAddress)
+        args.tokenAddress = ethers.utils.getAddress(args.tokenAddress)
+    }
+
     let queryName = 'bridgeAmountStatistic'
 
     // Determine query callable based on statistic type

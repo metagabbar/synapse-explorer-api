@@ -5,8 +5,9 @@ import {BRIDGE_TRANSACTIONS_COLLECTION} from "../../db/index.js"
 
 export async function countQuery(args) {
     let {tokenAddress, chainId, address, duration} = args
+    
     let filter = {}
-    if (chainId || address) {
+    if (chainId || address || tokenAddress) {
         filter = {'$and': []}
     }
 
