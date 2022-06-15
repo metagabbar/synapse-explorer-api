@@ -66,17 +66,18 @@ export const schema = gql`
   type Query {
 
     """
-    Returns bridged transactions filterable by chain, to/from address, to/from txn hash and keccak hash
-    Atleast 1 search parameter is required, which is one of chain id, address, txn hash or kappa
+    Returns bridged transactions filterable by chain, to/from address, to/from txn hash, token address, and keccak hash
+    At least 1 search parameter is required, which is one of chain id, address, txn hash or kappa
     Not explicitly specifying a search parameter executes a search across all txns irrespective of the field's value
     """
     bridgeTransactions(
-        chainId: Int,
-        address: String,
-        txnHash: String,
-        kappa: String,
+        chainId:        Int,
+        address:        String,
+        txnHash:        String,
+        kappa:          String,
         includePending: Boolean=false,
-        page: Int=1
+        page:           Int=1,
+        tokenAddress:   String,
     ): [BridgeTransaction]
 
     """
@@ -96,6 +97,7 @@ export const schema = gql`
       duration: Duration=ALL_TIME,
       chainId: Int,
       address: String,
+      tokenAddress: String,
     ): ValueResult
 
     """

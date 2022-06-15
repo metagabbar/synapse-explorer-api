@@ -1,10 +1,10 @@
-import {validateAddress} from "../../validators/validateAddress.js";
-import {ethers} from "ethers";
-import {getTimestampForPast24Hours} from "../../utils/timeUtils.js";
-import {BRIDGE_TRANSACTIONS_COLLECTION} from "../../db/index.js";
+import {validateAddress} from "../../validators/validateAddress.js"
+import {ethers} from "ethers"
+import {getTimestampForPast24Hours} from "../../utils/timeUtils.js"
+import {BRIDGE_TRANSACTIONS_COLLECTION} from "../../db/index.js"
 
 export async function countQuery(args) {
-    let {chainId, address, duration} = args
+    let {tokenAddress, chainId, address, duration} = args
     let filter = {}
     if (chainId || address) {
         filter = {'$and': []}
@@ -28,6 +28,15 @@ export async function countQuery(args) {
                 {'fromAddress': address},
                 {'toAddress': address},
             ]
+        })
+    }
+
+    if (tokenAddress) {
+        filter['$and'].push({
+            '$or': [
+                {'sentTokenAddress': tokenAddress},
+                {'receivedTokenAddress': tokenAddress},
+            ],
         })
     }
 
