@@ -3,7 +3,6 @@ import {ethers} from "ethers"
 import {getTimestampForPast24Hours} from "../../utils/timeUtils.js"
 import {BRIDGE_TRANSACTIONS_COLLECTION} from "../../db/index.js"
 
-
 export async function countQuery(args) {
     let {tokenAddress, chainId, address, duration} = args
     let filter = {}
