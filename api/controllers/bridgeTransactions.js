@@ -10,7 +10,7 @@ const QUERY_TTL_MINUTE = 60
 const QUERY_TTL_DAY = 60 * 60 * 24
 
 async function query(args) {
-    let { chainId, address, txnHash, kappa, page, includePending} = args
+    let { tokenAddress, chainId, address, txnHash, kappa, page, includePending} = args
 
     let filter = {'$and': []}
 
@@ -47,6 +47,15 @@ async function query(args) {
         })
     }
 
+    if (tokenAddress) {
+        filter['$and'].push({
+            '$or': [
+                {'sentTokenAddress': tokenAddress},
+                {'receivedTokenAddress': tokenAddress},
+            ]
+        })
+    }
+
     // Only return completed transactions here
     if (!includePending) {
         filter['$and'].push({
@@ -65,7 +74,7 @@ async function query(args) {
 export async function bridgeTransactions(_, args) {
 
     // Basic validation
-    if (!args.chainId && !args.address && !args.txnHash && !args.kappa) {
+    if (!args.tokenAddress && !args.chainId && !args.address && !args.txnHash && !args.kappa) {
         throw new UserInputError('a minimum of 1 search parameter is required to filter results')
     }
 
