@@ -14,7 +14,7 @@ import {
  * @return {string|null}
  */
 // TODO: migrate to one in currency utils
-function getFormattedValue(tokenAddress, chainId, value) {
+export function getFormattedValue(tokenAddress, chainId, value) {
     try {
         if (!value) {
             return null
