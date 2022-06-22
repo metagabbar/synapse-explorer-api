@@ -16,7 +16,8 @@ export const schema = gql`
     txnHash: String
 
     value:          String
-    formattedValue: String
+    formattedValue: Float
+    USDValue:       Float
     tokenAddress:   String
     tokenSymbol:    String
     time:           Int
