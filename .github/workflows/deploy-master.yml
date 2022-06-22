@@ -26,6 +26,10 @@ jobs:
           NODE_ENV: test
           MONGO_URI: ${{ secrets.MONGO_URI }}
           REDIS_URI: ${{ secrets.REDIS_URI }}
+          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          FILEBASE_ENDPOINT: ${{ secrets.FILEBASE_ENDPOINT }}
+          FILEBASE_REGION: ${{ secrets.FILEBASE_REGION }}
 
       - name: deploy on machine via ssh
         uses: appleboy/ssh-action@master

@@ -7,18 +7,14 @@ import { getFormattedValue } from '../models/bridgeTransaction.js'
 import { BRIDGE_TRANSACTIONS_COLLECTION } from '../db/index.js'
 import { validateAddress } from '../validators/validateAddress.js'
 
-// TODO: Refresh these keys and move over to .env config
-// once we can update config on CI 
-
 const s3 = new AWS.S3({
   apiVersion: '2006-03-01',
-  accessKeyId: '5616B5A2FC38D0416275',
-  secretAccessKey: '31V3nBnOdkcIKTnLrEhtv4gWiidQrkFk8RrV2SqT',
-  endpoint: 'https://s3.filebase.com',
-  region: 'us-east-1',
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  endpoint: process.env.FILEBASE_ENDPOINT,
+  region: process.env.FILEBASE_REGION,
   s3ForcePathStyle: true,
 })
-
 
 // TODO: Are these the right fields we want to be returning?
 
