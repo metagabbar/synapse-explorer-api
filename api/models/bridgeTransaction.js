@@ -45,7 +45,7 @@ export function formatBridgeTransaction(args) {
 
         value: args.sentValue,
         formattedValue: args.sentValueFormatted ? args.sentValueFormatted : getFormattedValue(args.sentTokenAddress, args.fromChainId, args.sentValue),
-        USDValue: args.USDValue
+        USDValue: args.sentValueUSD
     }
     const toInfo = {
         chainId: args.toChainId,
@@ -57,7 +57,7 @@ export function formatBridgeTransaction(args) {
 
         value: args.receivedValue,
         formattedValue: args.receivedValueFormatted ? args.receivedValueFormatted : getFormattedValue(args.receivedTokenAddress, args.toChainId, args.receivedValue),
-        USDValue: args.USDValue
+        USDValue: args.receivedValueUSD
     }
 
     return {
