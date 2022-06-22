@@ -28,3 +28,6 @@ query {
     - `docker run -p 6379:6379 redis`
 - `npm start`
 
+### Workers
+
+The `/workers` run in a separate process in the background, caching results from the database

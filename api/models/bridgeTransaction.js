@@ -11,9 +11,9 @@ import {
  * @param tokenAddress
  * @param chainId
  * @param value
- * @return {string|null}
+ * @return {number|null}
  */
-// TODO: migrate to one in currency utils
+// TODO: remove once all txns backindexed with values in indexer
 export function getFormattedValue(tokenAddress, chainId, value) {
     try {
         if (!value) {
@@ -23,7 +23,11 @@ export function getFormattedValue(tokenAddress, chainId, value) {
         let decimals = getDecimalsForChainFromTokenAddress(chainId, tokenAddress)
         let bigDivisor = FixedNumber.from(getDivisorForDecimals(decimals).toString())
         let res = bigValue.divUnsafe(bigDivisor)
-        return res.toString()
+        let floatVal = res.toUnsafeFloat()
+        if (Number.isFinite(floatVal)) {
+            return floatVal
+        }
+        throw new Error(`$Unable to parse float for value ${value}`)
     } catch (err) {
         console.error(err)
     }
@@ -36,22 +40,24 @@ export function formatBridgeTransaction(args) {
         address: args.fromAddress?.trim() ?? args.fromAddress,
         txnHash: args.fromTxnHash ? args.fromTxnHash.trim() : args.fromTxnHash,
         tokenAddress: args.sentTokenAddress ? args.sentTokenAddress.trim() : args.sentTokenAddress,
-        tokenSymbol:  getTokenSymbolFromAddress(args.fromChainId, args.sentTokenAddress),
-        time:         args.sentTime,
+        tokenSymbol: getTokenSymbolFromAddress(args.fromChainId, args.sentTokenAddress),
+        time: args.sentTime,
 
-        value:        args.sentValue,
-        formattedValue: getFormattedValue(args.sentTokenAddress, args.fromChainId, args.sentValue),
+        value: args.sentValue,
+        formattedValue: args.sentValueFormatted ? args.sentValueFormatted : getFormattedValue(args.sentTokenAddress, args.fromChainId, args.sentValue),
+        USDValue: args.USDValue
     }
     const toInfo = {
         chainId: args.toChainId,
         address: args.toAddress ? args.toAddress.trim() : args.toAddress,
         txnHash: args.toTxnHash ? args.toTxnHash.trim() : args.toTxnHash,
-        tokenAddress: args.receivedTokenAddress ? args.receivedTokenAddress.trim(): args.receivedTokenAddress,
-        tokenSymbol:  getTokenSymbolFromAddress(args.toChainId, args.receivedTokenAddress),
-        time:         args.receivedTime,
+        tokenAddress: args.receivedTokenAddress ? args.receivedTokenAddress.trim() : args.receivedTokenAddress,
+        tokenSymbol: getTokenSymbolFromAddress(args.toChainId, args.receivedTokenAddress),
+        time: args.receivedTime,
 
-        value:        args.receivedValue,
-        formattedValue: getFormattedValue(args.receivedTokenAddress, args.toChainId, args.receivedValue),
+        value: args.receivedValue,
+        formattedValue: args.receivedValueFormatted ? args.receivedValueFormatted : getFormattedValue(args.receivedTokenAddress, args.toChainId, args.receivedValue),
+        USDValue: args.USDValue
     }
 
     return {
