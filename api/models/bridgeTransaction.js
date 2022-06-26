@@ -1,9 +1,12 @@
 import {FixedNumber} from "ethers";
 import {
-    getDivisorForDecimals,
-    getDecimalsForChainFromTokenAddress,
-    getTokenSymbolFromAddress
+  getDivisorForDecimals,
+  getDecimalsForChainFromTokenAddress,
+  getTokenSymbolFromAddress
 } from "../utils/sdkUtils.js"
+import {
+  getStatus
+} from "../utils/statusUtils.js"
 
 /**
  * Returns formatted value for a token on a chain
@@ -66,5 +69,6 @@ export function formatBridgeTransaction(args) {
         kappa: args.kappa ? args.kappa.trim() : args.kappa,
         pending: args.pending,
         swapSuccess: args.swapSuccess,
+        status: getStatus(fromInfo, toInfo, args.pending),
     }
 }

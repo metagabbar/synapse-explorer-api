@@ -5,9 +5,10 @@ export const schema = gql`
     fromInfo: PartialInfo
     toInfo:   PartialInfo
 
-    kappa: String
+    kappa:        String
     pending:      Boolean
     swapSuccess:  Boolean
+    status:       String
   }
 
   type PartialInfo {
@@ -80,7 +81,7 @@ export const schema = gql`
       address:        String
       txnHash:        String
       kappa:          String
-      includePending: Boolean = false
+      includePending: Boolean = true
       page:           Int = 1
       tokenAddress:   String
     ): [BridgeTransaction]
