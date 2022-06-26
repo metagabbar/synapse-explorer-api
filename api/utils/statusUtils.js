@@ -34,6 +34,8 @@ export function getStatus(fromInfo, toInfo, pending) {
     isRecent(fromInfo, toInfo)
   ) {
     return 'indexing'
+  } else {
+    return 'complete'
   }
 }
 
@@ -48,11 +50,17 @@ export function getStatus(fromInfo, toInfo, pending) {
  * @return {boolean}
  */
 export function isIndexed(fromInfo, toInfo) {
-  return fromInfo.chainId &&
+  return fromInfo &&
+    fromInfo.chainId &&
+    fromInfo &&
     fromInfo.address &&
+    fromInfo &&
     fromInfo.txnHash &&
+    toInfo &&
     toInfo.chainId &&
+    toInfo &&
     toInfo.address &&
+    toInfo &&
     toInfo.txnHash
     ? true
     : false
