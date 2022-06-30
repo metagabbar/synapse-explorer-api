@@ -2,6 +2,8 @@ import fetch from "node-fetch"
 import {FixedNumber} from "ethers"
 import {ChainId} from "@synapseprotocol/sdk"
 
+const ANALYTICS_API_PREFIX = "https://analytics-api.bridgesyn.com"
+
 /**
  * Converts chain id to synapse analytics chain id
  *
@@ -27,7 +29,7 @@ function getAnalyticsNameFromChainId(chainId) {
  */
 export async function getAllTimeTotalForChains(chainId, direction="OUT") {
     try {
-        let res = await fetch(`https://synapse.dorime.org/api/v1/analytics/volume/total/${direction.toLowerCase()}`, {})
+        let res = await fetch(`${ANALYTICS_API_PREFIX}/api/v1/analytics/volume/total/${direction.toLowerCase()}`, {})
         let parsedJson = await res.json()
 
         // All chains
@@ -60,7 +62,7 @@ export async function getAllTimeTotalForChains(chainId, direction="OUT") {
  */
 export async function getPastDayTotalForChains(chainId, direction="OUT") {
     try {
-        let res = await fetch(`https://synapse.dorime.org/api/v1/analytics/volume/total/${direction.toLowerCase()}`, {})
+        let res = await fetch(`${ANALYTICS_API_PREFIX}/api/v1/analytics/volume/total/${direction.toLowerCase()}`, {})
         let parsedJson = await res.json()
         let dates = Object.keys(parsedJson["data"])
         let lastDate = dates[dates.length - 2]
