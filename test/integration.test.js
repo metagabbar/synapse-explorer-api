@@ -207,4 +207,25 @@ describe('integration tests', () => {
     expect(responseBody).to.be.an('array').that.is.not.empty
     expect(responseBody[0].kappa).to.be.an('string')
   }).timeout(10000)
+
+  it('should query historical bridge volume', async() => {
+    let queryData = {
+      query:`
+        query {
+          historicalStatistics(type:BRIDGEVOLUME){
+            type
+            total
+            dateResults {
+              total
+              date
+            }
+          }
+        }
+      `
+    }
+    const response = await request(url).post('/').send(queryData)
+    let responseBody = response.body.data.historicalStatistics
+    expect(responseBody.type).to.eq('BRIDGEVOLUME')
+    expect(responseBody.dateResults).to.be.an('array').that.is.not.empty
+  }).timeout(10000)
 })
