@@ -4,7 +4,7 @@ import {countByTokenAddress} from "../api/controllers/countByTokenAddress.js";
 import {countByChainId} from "../api/controllers/countByChainId.js";
 import {bridgeAmountStatistic} from "../api/controllers/bridgeAmountStatistic.js";
 import {bridgeTransactions} from "../api/controllers/bridgeTransactions.js";
-
+import { historicalStatistics } from '../api/controllers/historicalStatistics.js';
 
 export async function cacheBridgeTransactions(chainId) {
     let startTime = getCurrentTimestamp();
@@ -70,5 +70,30 @@ export async function cacheTotalAndCountStatistic(chainId = null) {
         console.log(`Finished caching front page statistic-${chainId ? chainId : ""} in ${endTime - startTime} seconds at ${endTime}`)
     } catch (err) {
         console.error(`Error in cacheTotalAndCountStatistic - ${err}`)
+    }
+}
+
+export async function cacheHistoricalStatistics(chainId = null) {
+    let bridgeVolumeArgs = { bypassCache: true, type: 'BRIDGEVOLUME' }
+    let transactionsArgs = { bypassCache: true, type: 'TRANSACTIONS' }
+    let addressesArgs = { bypassCache: true, type: 'ADDRESSES' }
+
+    if (chainId) {
+        bridgeVolumeArgs['chainId'] = chainId
+        transactionsArgs['chainId'] = chainId
+        addressesArgs['chainId'] = chainId
+    }
+
+    try {
+        let startTime = getCurrentTimestamp();
+        console.log(`Started caching historical statistics-${chainId ? chainId : ""} at ${startTime}`)
+        await historicalStatistics(null, bridgeVolumeArgs)
+        await historicalStatistics(null, transactionsArgs)
+        await historicalStatistics(null, addressesArgs)
+        let endTime = getCurrentTimestamp()
+        console.log(`Finished caching historical statitistics-${chainId ? chainId : ""} in ${endTime - startTime} seconds at ${endTime}`)
+
+    } catch (err) {
+        console.error(`Error in cacheHistoricalStatistics-${err}`)
     }
 }

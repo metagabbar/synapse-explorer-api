@@ -24,6 +24,17 @@ export const schema = gql`
     time:           Int
   }
 
+  type DateResult {
+    date:   String,
+    total:  Float
+  }
+
+  type HistoricalResult {
+    total:        Float
+    dateResults:  [DateResult]
+    type:         HistoricalResultType
+  }
+
   type ScalarResult {
     value: String
   }
@@ -68,6 +79,12 @@ export const schema = gql`
     MEDIAN
     TOTAL
     COUNT
+  }
+
+  enum HistoricalResultType {
+    BRIDGEVOLUME
+    TRANSACTIONS
+    ADDRESSES
   }
 
   type Query {
@@ -138,5 +155,14 @@ export const schema = gql`
     Returns csv of address' transactions
     """
     getCsv(address: String!): CSVData
+    
+    """
+    Historical transactional data
+    """
+    historicalStatistics(
+      chainId:  Int
+      type:     HistoricalResultType = BRIDGEVOLUME
+      days:     Int = 30
+    ): HistoricalResult
   }
 `
