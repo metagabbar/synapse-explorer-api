@@ -22,7 +22,7 @@ export async function queryAndCache(queryName, args, queryCallback, expireInSeco
         args
     )
 
-    if (!cachedRes || args.bypassCache) {
+    if (!cachedRes || cachedRes === "[]" || args.bypassCache) {
         // If you don't delete it, redis caches for wrong args!
         delete args['bypassCache']
 
