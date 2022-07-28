@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@synapseprotocol/sdk": "^0.95.0-beta.20",
+    "@synapseprotocol/sdk": "^0.95.1-alpha.24",
     "apollo-server": "^3.8.1",
     "apollo-server-core": "^3.8.1",
     "aws-sdk": "^2.1155.0",
